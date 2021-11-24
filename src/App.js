@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from "./components/Header";
 import AddTask from "./components/AddTask";
@@ -11,7 +12,7 @@ import React from "react"
 
 
 
-function App({fetchGoals, updGoalsDB, updCompletedDB}) {
+function App({fetchGoals, updGoalsDB, updCompletedDB, showDialogBox}) {
 
   
   const [showAddGoal, setShowAddGoal] = useState(false)
@@ -132,6 +133,10 @@ await updGoalsDB(newGoals)
 //When submit button is clicked in addTask component it toggles view, adds the task to the target goal, uses setGoals
 //used to be async
 const submitTasks = async(taskArr) =>{
+  if(taskArr.length == 0){
+    showDialogBox("Input a Task")
+    return
+  }
  
   setShowAddTask(!showAddTask)
   let taskObjArr = []
@@ -186,8 +191,15 @@ const addGoal = async(goal) => {
 
 //Toggle view of addTask component and TaskList component when dropdown is clicked and the goal to add to is chosen
 const handleDropDown = (eventKey,event) => {
-  setShowAddTask(!showAddTask)
-  setAddToGoal(eventKey)
+  if(eventKey != "newGoal"){
+    setShowAddTask(!showAddTask)
+    setAddToGoal(eventKey)
+  }
+  else{
+    setMinimizeTasks(true);
+    setMinimizeGoals(false);
+    setShowAddGoal(true);
+  }
   // 
 }
 
@@ -233,15 +245,15 @@ const toggleVisible = async (goalId) => {
      {!minimizeTasks && <div className="container">
         {/* Tasks components */}
         <MinMaxButtons component = "Tasks" miniTasks = {minimizeTasks} miniGoals = {minimizeGoals} toggleMiniTasks={() => setMinimizeTasks(!minimizeTasks)} toggleMiniGoals={() => setMinimizeGoals(!minimizeGoals)} />
-        {showAddTask ? <Header buttonColor="red" buttonText="✖️ Never Mind" title="New Task" onAdd={() => (setShowAddTask(!showAddTask))}/> : <Header goals={goals} title="Tasks"  onAdd={handleDropDown} />}
-        {showAddTask ? <AddTask addToGoal={addToGoal.id} onSubmit={submitTasks}/> : <TaskList goals={goals} removeTask={removeTask}  onToggle={toggleDone} />}
+        {showAddTask ? <Header buttonColor="red" buttonText="✖️ Never Mind" title="New Tasks" onAdd={() => (setShowAddTask(!showAddTask))}/> : <Header goals={goals} title="Tasks"  onAdd={handleDropDown} />}
+        {showAddTask ? <AddTask addToGoalColor={goals.filter(goal => goal.id == addToGoal)[0].color} onSubmit={submitTasks}/> : <TaskList goals={goals} removeTask={removeTask}  onToggle={toggleDone} />}
       </div>}
 
       {!minimizeGoals && <div className = "container">
         {/* Goals components */}
         <MinMaxButtons component = "Goals" miniTasks = {minimizeTasks} miniGoals = {minimizeGoals} toggleMiniTasks={() => setMinimizeTasks(!minimizeTasks)} toggleMiniGoals={() => setMinimizeGoals(!minimizeGoals)} />
        {showAddGoal ? <Header  buttonColor="red" buttonText="✖️ Never Mind" title="New Goal" onAdd={() => setShowAddGoal(!showAddGoal)}/> :  <Header  buttonColor="green" buttonText="Add"title="Goals" onAdd={() => setShowAddGoal(!showAddGoal)}/>}
-        {showAddGoal ? <AddGoal setShowGoals={() => setShowAddGoal(!showAddGoal)} addGoal={addGoal} onChange={handleColorChange} />:
+        {showAddGoal ? <AddGoal setShowGoals={() => setShowAddGoal(!showAddGoal)} addGoal={addGoal} onChange={handleColorChange} showDialogBox={showDialogBox}/>:
         <GoalList goals={goals}  removeGoal={removeGoal} onToggle ={toggleSubGoals} toggleDone={toggleDone} toggleVisible={toggleVisible} />}
       </div>}
 

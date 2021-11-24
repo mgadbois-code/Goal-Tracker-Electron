@@ -15,9 +15,14 @@ async function updCompletedDB(args){
     var result = myApp.updCompletedDB(args)
 }
 
+async function showDialogBox(args){
+    console.log(args)
+    var result = myApp.showDialogBox(args)
+}
+
 
 ReactDOM.render(
     <div>
-        <App updGoalsDB={updGoalsDB} fetchGoals={fetchGoals} updCompletedDB={updCompletedDB} />
+        <App updGoalsDB={updGoalsDB} fetchGoals={fetchGoals} updCompletedDB={updCompletedDB} showDialogBox={showDialogBox} />
     </div>
     , document.getElementById("root"))

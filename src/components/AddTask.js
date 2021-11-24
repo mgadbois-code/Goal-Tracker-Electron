@@ -18,6 +18,9 @@ const AddTask = (props) => {
         props.onSubmit(taskArr)
     }
 
+    const removeTask = (event, task) => {
+        setTaskArr(taskArr.filter(t => t != task))
+    }
 
     return (
         <form>
@@ -27,8 +30,8 @@ const AddTask = (props) => {
                         <button style = {{marginRight: "5%"}} onClick={(event) => addTask(event)} className="plus-btn"> ➕ </button>
                         <Button  onClick={(event) => submitTasks(event,taskArr)} type="submit" text="Add Tasks"  color="green"/>
                 </div>
-                <ul>
-                    {taskArr.map((task)=> <li>{task}</li>)}
+                <ul style={{listStyleType:"none", width:"90%"}} >
+                    {taskArr.map((task)=> <li style={{backgroundColor:props.addToGoalColor, marginBottom:"4px", fontWeight:"bold", padding:"2px"}} className="pointer"  onClick={() => removeTask(event,task)} ><span style={{fontSize:"15px", fontWeight:"initial"}}> ❌ </span> {task}</li>)}
                 </ul>
             
         </form>

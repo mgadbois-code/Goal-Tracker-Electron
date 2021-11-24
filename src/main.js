@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const path = require('path');
 var fs = require("fs")
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
@@ -21,7 +21,7 @@ const createWindow = () => {
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
   // Open the DevTools.
-  // mainWindow.webContents.openDevTools();
+  mainWindow.webContents.openDevTools();
 
   mainWindow.setMenuBarVisibility(false)
 
@@ -78,3 +78,7 @@ ipcMain.handle("update-completed" , async(event,args) => {
 
 })
  
+ipcMain.handle("show-dialog-box", async(event,args) => {
+  let message = args;
+  const response = dialog.showMessageBoxSync(null,{message:message})
+})

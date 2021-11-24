@@ -21,6 +21,10 @@ const AddGoal = (props) => {
         // console.log(taskArr)
         setTaskName("")
     }
+    const removeTask = (event, task) => {
+        let index = 1;
+        setTaskArr(taskArr.filter(t => t.id != task.id).map(task => {task.id = index; index++; return task}))
+    }
 
     const changeColor = (color,event) =>{
         let colorValue = color.hex + "80";
@@ -40,18 +44,20 @@ const AddGoal = (props) => {
 
       const onSubmit = (event) => {
           event.preventDefault();
-          props.setShowGoals();
           if(!goalName){
-              alert("Enter a goal name");
+              props.showDialogBox("Enter a name for your goal")
               return;
+            }
+            else if(taskArr.length == 0){
+                props.showDialogBox("Add at least one task to your goal")
+                return;
+            }
+            
+            else{
+                let goal = {title: goalName, dueDate: dueDate, tasks: taskArr, color: color, visible:true};
+                props.addGoal(goal)
+                props.setShowGoals();
           }
-          if(taskArr.length == 0){
-              alert("Add a task");
-              return;
-          }
-          
-          let goal = {title: goalName, dueDate: dueDate, tasks: taskArr, color: color, visible:true};
-          props.addGoal(goal)
          
 
       }
@@ -72,8 +78,8 @@ const AddGoal = (props) => {
                         <input type="text" value={taskName} onChange= {(event) => setTaskName(event.target.value)} placeholder="Add Task"/>
                         <button onClick={(event) => addTask(event)} className="plus-btn"> ➕ </button>
                 </div>
-                <ul>
-                    {taskArr.map((task)=> <li>{task.title}</li>)}
+                <ul style={{listStyleType:"none", width:"90%"}} >
+                    {taskArr.map((task)=> <li style={{backgroundColor:color, margin:"4px", fontWeight:"bold", padding:"2px"}} className="pointer"  onClick={() => removeTask(event,task)} ><span style={{fontSize:"15px", fontWeight:"initial"}}> ❌ </span> {task.title}</li>)}
                 </ul>
             </div>
             <div className="goal-form">
@@ -83,7 +89,7 @@ const AddGoal = (props) => {
                     <HuePicker width="auto" color="ggg" onChange={(color,event) => changeColor(color,event)} />
                     </div>
                     <div style={{marginTop:"10px"}}>
-                    <button className="btn" type="submit" text="Submit Goal" onClick={onSubmit} style={{backgroundColor:color, color: "black", fontWeight:"bolder" }}>Submit Goal</button>
+                    <button className="btn" text="Submit Goal" onClick={onSubmit} style={{backgroundColor:color, color: "black", fontWeight:"bolder" }}>Submit Goal</button>
                         {/* <Button type="submit" text="Submit Goal" onClick = {onSubmit} color={color}/> */}
                     </div>
                 </div>

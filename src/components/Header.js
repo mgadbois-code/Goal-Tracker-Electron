@@ -12,12 +12,14 @@ const Header = (props) => {
             <Button text ={props.buttonText} color={props.buttonColor} showAddGoal={props.showAddGoal} onClick={props.onAdd}/>}
            {props.title==="Tasks" &&
            <DropdownButton onSelect={props.onAdd} id="drop-down" title="Add">
-          { props.goals.map(goal => <Dropdown.Item  eventKey={goal.id} >{goal.title}</Dropdown.Item>)}
+          {props.goals.length > 0 && props.goals.map(goal => <Dropdown.Item  eventKey={goal.id} >{goal.title}</Dropdown.Item>)}
+          {props.goals.length > 0 && <Dropdown.Divider />}
+          <Dropdown.Item eventKey="newGoal">New Goal</Dropdown.Item>
          </DropdownButton>}
             <h1 style={{marginRight:"20px"}}>{props.title}</h1>
             {props.title === "New Goal" &&
             <Button  text ={props.buttonText} color={props.buttonColor} showAddGoal={props.showAddGoal} onClick={props.onAdd}/>}
-            {props.title === "New Task" &&
+            {props.title === "New Tasks" &&
             <Button  text ={props.buttonText} color={props.buttonColor} showAddGoal={props.showAddGoal} onClick={props.onAdd}/>}
         </header>
     )
