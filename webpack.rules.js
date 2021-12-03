@@ -1,6 +1,16 @@
 module.exports = [
   // Add support for native node modules
   {
+    test: /\.(js|jsx)$/,
+    exclude: /node_modules/,
+    use: ['babel-loader'],
+  },
+  {
+    test: /\.svg$/,
+    use: ['@svgr/webpack'],
+  },
+
+  {
     // We're specifying native_modules in the test because the asset relocator loader generates a
     // "fake" .node file which is really a cjs file.
     test: /native_modules\/.+\.node$/,

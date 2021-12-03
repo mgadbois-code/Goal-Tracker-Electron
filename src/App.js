@@ -22,6 +22,7 @@ function App({fetchGoals, updGoalsDB, updCompletedDB, showDialogBox}) {
   const [minimizeGoals, setMinimizeGoals] = useState(false)
   const [goals, setGoals] = useState([ ])
   const [goalColor,setGoalColor] = useState("white")
+  const [showGoalEdit,setShowGoalEdit] = useState(false)
 
 
 
@@ -33,6 +34,7 @@ function App({fetchGoals, updGoalsDB, updCompletedDB, showDialogBox}) {
       setGoals(g)
     }
     getGoals()
+
   }, [])
 
 
@@ -48,6 +50,22 @@ const toggleSubGoals = (id) => {
     return goal
   }))
   
+}
+
+const toggleEditGoal = (id) => {
+  console.log("goal id: " + id)
+  setGoals(goals.map((goal) => {
+    if( goal.id == id){
+      let showEditGoalValue = true
+      if(goal.hasOwnProperty("showEditGoal")){
+        showEditGoalValue = !goal.showEditGoal
+      }
+      let newGoal = {...goal,showEditGoal: showEditGoalValue}
+      goal = newGoal
+    }
+    console.log(goal.showEditGoal)
+    return goal
+  }))
 }
 
 const removeGoal = async (goalId, done) => {
@@ -254,7 +272,7 @@ const toggleVisible = async (goalId) => {
         <MinMaxButtons component = "Goals" miniTasks = {minimizeTasks} miniGoals = {minimizeGoals} toggleMiniTasks={() => setMinimizeTasks(!minimizeTasks)} toggleMiniGoals={() => setMinimizeGoals(!minimizeGoals)} />
        {showAddGoal ? <Header  buttonColor="red" buttonText="✖️ Never Mind" title="New Goal" onAdd={() => setShowAddGoal(!showAddGoal)}/> :  <Header  buttonColor="green" buttonText="Add"title="Goals" onAdd={() => setShowAddGoal(!showAddGoal)}/>}
         {showAddGoal ? <AddGoal setShowGoals={() => setShowAddGoal(!showAddGoal)} addGoal={addGoal} onChange={handleColorChange} showDialogBox={showDialogBox}/>:
-        <GoalList goals={goals}  removeGoal={removeGoal} onToggle ={toggleSubGoals} toggleDone={toggleDone} toggleVisible={toggleVisible} />}
+        <GoalList goals={goals}  removeGoal={removeGoal} onToggle ={toggleSubGoals} toggleDone={toggleDone} toggleVisible={toggleVisible} toggleShowEditGoal={toggleEditGoal} />}
       </div>}
 
     </div>
