@@ -1,8 +1,12 @@
 import React from 'react'
 
-const ItemRemoveButton = ({removeGoal, allDone}) => {
+const ItemRemoveButton = ({removeGoal, allDone,size,className}) => {
+    ItemRemoveButton.defaultProps= {
+        size: "25px",
+        className: "btn h2"
+    }
     return (
-        <button style={{fontSize:"25px"}} className="btn h2" onClick={(event) => {event.stopPropagation(); removeGoal()}}>
+        <button style={{fontSize: size}} className={className} onClick={(event) => {event.stopPropagation(); removeGoal()}}>
             {allDone != 0 ? "❌": "✔️"}
         </button >
     )

@@ -272,7 +272,7 @@ const toggleVisible = async (goalId) => {
         <MinMaxButtons component = "Goals" miniTasks = {minimizeTasks} miniGoals = {minimizeGoals} toggleMiniTasks={() => setMinimizeTasks(!minimizeTasks)} toggleMiniGoals={() => setMinimizeGoals(!minimizeGoals)} />
        {showAddGoal ? <Header  buttonColor="red" buttonText="✖️ Never Mind" title="New Goal" onAdd={() => setShowAddGoal(!showAddGoal)}/> :  <Header  buttonColor="green" buttonText="Add"title="Goals" onAdd={() => setShowAddGoal(!showAddGoal)}/>}
         {showAddGoal ? <AddGoal setShowGoals={() => setShowAddGoal(!showAddGoal)} addGoal={addGoal} onChange={handleColorChange} showDialogBox={showDialogBox}/>:
-        <GoalList goals={goals}  removeGoal={removeGoal} onToggle ={toggleSubGoals} toggleDone={toggleDone} toggleVisible={toggleVisible} toggleShowEditGoal={toggleEditGoal} />}
+        <GoalList goals={goals}  removeGoal={removeGoal} removeTask={removeTask} onToggle ={toggleSubGoals} toggleDone={toggleDone} toggleVisible={toggleVisible} toggleShowEditGoal={toggleEditGoal} />}
       </div>}
 
     </div>

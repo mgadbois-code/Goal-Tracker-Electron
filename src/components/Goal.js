@@ -16,7 +16,7 @@ const Goal = (props) => {
     
     if(props.showEditGoal){
         return (
-            <EditGoal toggleShowEditGoal={props.toggleShowEditGoal} goalId = {props.goal.id} />
+            <EditGoal removeTask={props.removeTask} toggleShowEditGoal={props.toggleShowEditGoal} goalId = {props.goal.id} goalColor={props.goal.color} goal={props.goal} />
         )
     }
 

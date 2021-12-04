@@ -34,6 +34,10 @@ body {
 }
 
 
+.small-btn {
+  background-color: white;
+  border: none;
+}
 .btn {
   padding: 8px 20px;
   background-color: black;
@@ -112,8 +116,6 @@ body {
   min-width: 45%;
 
 }
-
-
 
 .header {
   display: flex;
