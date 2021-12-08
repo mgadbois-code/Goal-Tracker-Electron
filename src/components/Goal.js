@@ -17,7 +17,8 @@ const Goal = (props) => {
     
     if(props.showEditGoal){
         return (
-            <EditGoal goals={props.goals} reOrderGoalUp={props.reOrderGoalUp} reOrderGoalDown={props.reOrderGoalDown} reOrderTaskUp={props.reOrderTaskUp} reOrderTaskDown={props.reOrderTaskDown} removeTask={props.removeTask} toggleShowEditGoal={props.toggleShowEditGoal} goalId = {props.goal.id} goalColor={props.goal.color} goal={props.goal} />
+            <EditGoal submitGoalEdits={props.submitGoalEdits} goals={props.goals} reOrderGoalUp={props.reOrderGoalUp} reOrderGoalDown={props.reOrderGoalDown} reOrderTaskUp={props.reOrderTaskUp} reOrderTaskDown={props.reOrderTaskDown} 
+            addTask={props.addTask} removeTask={props.removeTask} toggleShowEditGoal={props.toggleShowEditGoal} goalId = {props.goal.id} goalColor={props.goal.color} goal={props.goal} />
         )
     }
 
@@ -38,7 +39,7 @@ const Goal = (props) => {
 
             </div>
 
-            {props.goal.dueDate !=="" && <h4 onClick={() => props.onToggle(props.goal.id)} className="detail">Due: {props.goal.dueDate, done} </h4>}
+            {props.goal.dueDate !=="" && <h4 onClick={() => props.onToggle(props.goal.id)} className="detail">Due: {props.goal.dueDate} </h4>}
 
             <div className="flex" >
                 {!props.goal.showSubGoals && tasks.map((task) =>{
