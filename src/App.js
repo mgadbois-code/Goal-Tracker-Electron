@@ -205,6 +205,92 @@ const addGoal = async(goal) => {
 
 }
 
+const editGoal = async(goal) => {
+  
+}
+
+const reOrderTaskUp = (goalId,taskId, taskArr) =>{
+  for(let i = 0; i< taskArr.length; i++){
+      if(taskArr[i].id == taskId){
+          let switchIndex = i-1
+          if(i == 0){
+              switchIndex = taskArr.length -1
+          }
+          let tempTask = taskArr[switchIndex]
+          taskArr[switchIndex] = taskArr[i]
+          taskArr[i] = tempTask;
+          break;
+      }
+  }
+  
+  setGoals(goals.map(((goal) => {
+    if(goal.id == goalId){
+      goal.tasks = taskArr
+    }
+    return goal
+  })))
+  
+}
+
+const reOrderTaskDown = (goalId,taskId, taskArr) =>{
+  for(let i = 0; i< taskArr.length; i++){
+      if(taskArr[i].id == taskId){
+          let switchIndex = i+1
+          if(i == taskArr.length -1){
+              switchIndex = 0
+          }
+          let tempTask = taskArr[switchIndex]
+          taskArr[switchIndex] = taskArr[i]
+          taskArr[i] = tempTask;
+          break;
+      }
+  }
+  
+  setGoals(goals.map(((goal) => {
+    if(goal.id == goalId){
+      goal.tasks = taskArr
+    }
+    return goal
+  })))
+  
+}
+
+const reOrderGoalUp = (goalId) => {
+  let goalsArr = [...goals]
+  for(let i = 0; i< goalsArr.length; i++){
+    if(goalsArr[i].id == goalId){
+        let switchIndex = i-1;
+        if(i == 0){
+            switchIndex = goalsArr.length -1
+        }
+        let tempGoal = goalsArr[switchIndex]
+        goalsArr[switchIndex] = goalsArr[i]
+        goalsArr[i] = tempGoal;
+        break;
+    }
+}
+setGoals(goalsArr)
+
+}
+
+const reOrderGoalDown = (goalId) => {
+  let goalsArr = [...goals]
+  for(let i = 0; i< goalsArr.length; i++){
+    if(goalsArr[i].id == goalId){
+        let switchIndex = i+1
+        if(i == goalsArr.length -1){
+            switchIndex = 0
+        }
+        let tempGoal = goalsArr[switchIndex]
+        goalsArr[switchIndex] = goalsArr[i]
+        goalsArr[i] = tempGoal;
+        break;
+    }
+}
+setGoals(goalsArr)
+
+}
+
 
 
 //Toggle view of addTask component and TaskList component when dropdown is clicked and the goal to add to is chosen
@@ -272,7 +358,7 @@ const toggleVisible = async (goalId) => {
         <MinMaxButtons component = "Goals" miniTasks = {minimizeTasks} miniGoals = {minimizeGoals} toggleMiniTasks={() => setMinimizeTasks(!minimizeTasks)} toggleMiniGoals={() => setMinimizeGoals(!minimizeGoals)} />
        {showAddGoal ? <Header  buttonColor="red" buttonText="✖️ Never Mind" title="New Goal" onAdd={() => setShowAddGoal(!showAddGoal)}/> :  <Header  buttonColor="green" buttonText="Add"title="Goals" onAdd={() => setShowAddGoal(!showAddGoal)}/>}
         {showAddGoal ? <AddGoal setShowGoals={() => setShowAddGoal(!showAddGoal)} addGoal={addGoal} onChange={handleColorChange} showDialogBox={showDialogBox}/>:
-        <GoalList goals={goals}  removeGoal={removeGoal} removeTask={removeTask} onToggle ={toggleSubGoals} toggleDone={toggleDone} toggleVisible={toggleVisible} toggleShowEditGoal={toggleEditGoal} />}
+        <GoalList reOrderGoalUp={reOrderGoalUp} reOrderGoalDown={reOrderGoalDown} reOrderTaskUp={reOrderTaskUp} reOrderTaskDown={reOrderTaskDown} goals={goals}  removeGoal={removeGoal} removeTask={removeTask} onToggle ={toggleSubGoals} toggleDone={toggleDone} toggleVisible={toggleVisible} toggleShowEditGoal={toggleEditGoal} />}
       </div>}
 
     </div>

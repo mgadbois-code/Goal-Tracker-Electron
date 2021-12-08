@@ -14,9 +14,10 @@ const Goal = (props) => {
     const tasks=doneTasks.concat(undoneTasks)
     const done = undoneTasks.length == 0
     
+    
     if(props.showEditGoal){
         return (
-            <EditGoal removeTask={props.removeTask} toggleShowEditGoal={props.toggleShowEditGoal} goalId = {props.goal.id} goalColor={props.goal.color} goal={props.goal} />
+            <EditGoal goals={props.goals} reOrderGoalUp={props.reOrderGoalUp} reOrderGoalDown={props.reOrderGoalDown} reOrderTaskUp={props.reOrderTaskUp} reOrderTaskDown={props.reOrderTaskDown} removeTask={props.removeTask} toggleShowEditGoal={props.toggleShowEditGoal} goalId = {props.goal.id} goalColor={props.goal.color} goal={props.goal} />
         )
     }
 
