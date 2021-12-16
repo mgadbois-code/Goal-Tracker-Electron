@@ -180,8 +180,15 @@ await updGoalsDB(newGoals)
 //When submit button is clicked in addTask component it toggles view, adds the task to the target goal, uses setGoals
 //used to be async
 
-const submitGoalEdits = async(newGoals) =>{
-  await updGoalsDB(newGoals)
+const submitGoalEdits = async(goalId,newGoal) =>{
+  setGoals(goals.map(goal => {
+    if(goal.id == goalId){
+      console.log(newGoal)
+      return newGoal
+    }
+    return goal
+  }))
+  await updGoalsDB(goals)
 }
 
 const submitTasks = async(taskArr) =>{
@@ -231,14 +238,20 @@ const handleColorChange = () => {
 const addGoal = async(goal) => {
 
   goal.id = goals.length + 1
-  let newGoals =  [...goals,goal]
+  let newGoals =  [goal,...goals]
   setGoals(newGoals)
   await updGoalsDB(newGoals)
 
 }
 
-const editGoal = async(goal) => {
+const createNewGoal = () => {
+  let newGoal = {title:"New Goal",dueDate:"",showEditGoal:true, showSubGoals:false,color:"#ff000080",visible:true,tasks:[] }
+  addGoal(newGoal);
   
+}
+
+const createNewTask = (goalId) => {
+
 }
 
 const reOrderTaskUp = (goalId,taskId, taskArr) =>{
@@ -388,9 +401,9 @@ const toggleVisible = async (goalId) => {
       {!minimizeGoals && <div className = "container">
         {/* Goals components */}
         <MinMaxButtons component = "Goals" miniTasks = {minimizeTasks} miniGoals = {minimizeGoals} toggleMiniTasks={() => setMinimizeTasks(!minimizeTasks)} toggleMiniGoals={() => setMinimizeGoals(!minimizeGoals)} />
-       {showAddGoal ? <Header  buttonColor="red" buttonText="✖️ Never Mind" title="New Goal" onAdd={() => setShowAddGoal(!showAddGoal)}/> :  <Header  buttonColor="green" buttonText="Add"title="Goals" onAdd={() => setShowAddGoal(!showAddGoal)}/>}
+       {showAddGoal ? <Header  buttonColor="red" buttonText="✖️ Never Mind" title="New Goal" onAdd={() => setShowAddGoal(!showAddGoal)}/> :  <Header  buttonColor="green" buttonText="Add"title="Goals" onAdd={() => createNewGoal()}/>}
         {showAddGoal ? <AddGoal setShowGoals={() => setShowAddGoal(!showAddGoal)} addGoal={addGoal} onChange={handleColorChange} showDialogBox={showDialogBox}/>:
-        <GoalList submitGoalEdits={submitGoalEdits} reOrderGoalUp={reOrderGoalUp} reOrderGoalDown={reOrderGoalDown} reOrderTaskUp={reOrderTaskUp} reOrderTaskDown={reOrderTaskDown} goals={goals}  removeGoal={removeGoal} addTask={addTask} removeTask={removeTask} onToggle ={toggleSubGoals} toggleDone={toggleDone} toggleVisible={toggleVisible} toggleShowEditGoal={toggleEditGoal} />}
+        <GoalList showDialogBox={showDialogBox} submitGoalEdits={submitGoalEdits} reOrderGoalUp={reOrderGoalUp} reOrderGoalDown={reOrderGoalDown} reOrderTaskUp={reOrderTaskUp} reOrderTaskDown={reOrderTaskDown} goals={goals}  removeGoal={removeGoal} addTask={addTask} removeTask={removeTask} onToggle ={toggleSubGoals} toggleDone={toggleDone} toggleVisible={toggleVisible} toggleShowEditGoal={toggleEditGoal} />}
       </div>}
 
     </div>
