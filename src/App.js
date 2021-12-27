@@ -394,14 +394,15 @@ const toggleVisible = async (goalId) => {
      {!minimizeTasks && <div className="container">
         {/* Tasks components */}
         <MinMaxButtons component = "Tasks" miniTasks = {minimizeTasks} miniGoals = {minimizeGoals} toggleMiniTasks={() => setMinimizeTasks(!minimizeTasks)} toggleMiniGoals={() => setMinimizeGoals(!minimizeGoals)} />
-        {showAddTask ? <Header buttonColor="red" buttonText="✖️ Never Mind" title="New Tasks" onAdd={() => (setShowAddTask(!showAddTask))}/> : <Header goals={goals} title="Tasks"  onAdd={handleDropDown} />}
-        {showAddTask ? <AddTask addToGoalColor={goals.filter(goal => goal.id == addToGoal)[0].color} onSubmit={submitTasks}/> : <TaskList goals={goals} removeTask={removeTask}  onToggle={toggleDone} />}
+        {showAddTask ? <Header titleName="Tasks" buttonColor="red" buttonText="✖️ Never Mind" title="New Tasks" onAdd={() => (setShowAddTask(!showAddTask))}/> : <Header titleName="Tasks" goals={goals} title="Tasks"  onAdd={handleDropDown} />}
+        {showAddTask && <AddTask addToGoalColor={goals.filter(goal => goal.id == addToGoal)[0].color} onSubmit={submitTasks} buttonColor="red" buttonText="✖️ Never Mind" title="New Tasks" onAdd={() => (setShowAddTask(!showAddTask))}/>}
+        <TaskList goals={goals} removeTask={removeTask}  onToggle={toggleDone} />
       </div>}
 
       {!minimizeGoals && <div className = "container">
         {/* Goals components */}
         <MinMaxButtons component = "Goals" miniTasks = {minimizeTasks} miniGoals = {minimizeGoals} toggleMiniTasks={() => setMinimizeTasks(!minimizeTasks)} toggleMiniGoals={() => setMinimizeGoals(!minimizeGoals)} />
-       {showAddGoal ? <Header  buttonColor="red" buttonText="✖️ Never Mind" title="New Goal" onAdd={() => setShowAddGoal(!showAddGoal)}/> :  <Header  buttonColor="green" buttonText="Add"title="Goals" onAdd={() => createNewGoal()}/>}
+       {showAddGoal ? <Header titleName="New Goal"  buttonColor="red" buttonText="✖️ Never Mind" title="New Goal" onAdd={() => setShowAddGoal(!showAddGoal)}/> :  <Header titleName="Goals"  buttonColor="green" buttonText="Add"title="Goals" onAdd={() => createNewGoal()}/>}
         {showAddGoal ? <AddGoal setShowGoals={() => setShowAddGoal(!showAddGoal)} addGoal={addGoal} onChange={handleColorChange} showDialogBox={showDialogBox}/>:
         <GoalList showDialogBox={showDialogBox} submitGoalEdits={submitGoalEdits} reOrderGoalUp={reOrderGoalUp} reOrderGoalDown={reOrderGoalDown} reOrderTaskUp={reOrderTaskUp} reOrderTaskDown={reOrderTaskDown} goals={goals}  removeGoal={removeGoal} addTask={addTask} removeTask={removeTask} onToggle ={toggleSubGoals} toggleDone={toggleDone} toggleVisible={toggleVisible} toggleShowEditGoal={toggleEditGoal} />}
       </div>}

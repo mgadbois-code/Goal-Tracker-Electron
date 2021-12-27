@@ -16,11 +16,12 @@ const Header = (props) => {
           {props.goals.length > 0 && <Dropdown.Divider />}
           <Dropdown.Item eventKey="newGoal">New Goal</Dropdown.Item>
          </DropdownButton>}
-            <h1 style={{marginRight:"20px"}}>{props.title}</h1>
+         {/* Keeps the tasks title on the right side */}
+            {props.title!="New Tasks" ? <h1 style={{marginRight:"20px"}}>{props.titleName}</h1> :<div></div> }
+            {props.title=="New Tasks" && <h1 style={{marginRight:"20px"}}>{props.titleName}</h1>}
             {props.title === "New Goal" &&
             <Button  text ={props.buttonText} color={props.buttonColor} showAddGoal={props.showAddGoal} onClick={props.onAdd}/>}
-            {props.title === "New Tasks" &&
-            <Button  text ={props.buttonText} color={props.buttonColor} showAddGoal={props.showAddGoal} onClick={props.onAdd}/>}
+            
         </header>
     )
 }

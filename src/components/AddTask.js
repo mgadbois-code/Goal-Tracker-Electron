@@ -2,7 +2,7 @@ import { useState } from "react"
 import Button from "./Button"
 import React from "react"
 
-const AddTask = (props) => {
+const AddTask = ({addToGoalColor,onSubmit,buttonColor, buttonText, title, onAdd}) => {
     var [taskName, setTaskName] = useState("")
     var [taskArr, setTaskArr] = useState([])
     
@@ -13,9 +13,10 @@ const AddTask = (props) => {
         setTaskName("")
     }
 
-    const submitTasks = (event,taskArr) =>{
+    const submitTasks = (event,taskName) =>{
         event.preventDefault();
-        props.onSubmit(taskArr)
+        // setTaskArr([taskName])
+        onSubmit([taskName])
     }
 
     const removeTask = (event, task) => {
@@ -23,18 +24,16 @@ const AddTask = (props) => {
     }
 
     return (
-        <form>
-           <div style={{display: "flex", alignItems:"center"}}>
-                        <label style={{marginRight: 5}}>Tasks: </label>
-                        <input type="text" value={taskName} onChange= {(event) => setTaskName(event.target.value)} placeholder="Add Task"/>
-                        <button style = {{marginRight: "5%"}} onClick={(event) => addTask(event)} className="plus-btn"> ➕ </button>
-                        <Button  onClick={(event) => submitTasks(event,taskArr)} type="submit" text="Add Tasks"  color="green"/>
+        <div className="item pointer task" style={{backgroundColor: addToGoalColor}}>
+            <div className="header">
+                <input className="h3 detail" value={taskName} onChange={(event) => setTaskName(event.target.value)} placeholder="New Task" />
+                <div className="flex">
+                    <button onClick={(event) => submitTasks(event,taskName)} className="btn" style={{backgroundColor:"green", color:"white", fontWeight:"bold"}}>Done</button>
+                    <button className="btn" style={{backgroundColor:"red", marginRight:"20px", color:"white", fontWeight:"bold"}} onClick={onAdd}>Never Mind</button>
                 </div>
-                <ul style={{listStyleType:"none", width:"90%"}} >
-                    {taskArr.map((task)=> <li style={{backgroundColor:props.addToGoalColor, marginBottom:"4px", fontWeight:"bold", padding:"2px"}} className="pointer"  onClick={() => removeTask(event,task)} ><span style={{fontSize:"15px", fontWeight:"initial"}}> ❌ </span> {task}</li>)}
-                </ul>
-            
-        </form>
+                {/* <ItemRemoveButton removeGoal={() => props.removeTask(props.goal.id,props.task.id)} allDone="1" /> */}
+            </div>
+        </div>
     )
 }
 
