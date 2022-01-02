@@ -2,7 +2,13 @@ import Task from "./Task";
 import Goal from "./Goal";
 import React from "react"
 
+
 const TaskList = (props) => {
+    let tasks = props.goals.filter(goal => goal.visible).map((goal) => goal.tasks.filter((task) => !task.done))
+    if (tasks.length == 0){
+        return <h3 style={{color:"gray", marginLeft:"25%" }}>No Tasks To Show</h3>
+    }
+
     return (
         <div>
             { props.goals.filter(goal => goal.visible).map((goal) => goal.tasks.filter((task) => !task.done).map((task) => <Task onToggle={props.onToggle} removeTask={props.removeTask}  goal= {goal} task={task} />))}

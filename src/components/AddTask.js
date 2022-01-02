@@ -24,12 +24,12 @@ const AddTask = ({addToGoalColor,onSubmit,buttonColor, buttonText, title, onAdd}
     }
 
     return (
-        <div className="item pointer task" style={{backgroundColor: addToGoalColor}}>
+        <div className="item pointer task" style={{backgroundColor: addToGoalColor, cursor:"default"}}>
             <div className="header">
-                <input className="h3 detail" value={taskName} onChange={(event) => setTaskName(event.target.value)} placeholder="New Task" />
+                <input className="h3 detail edit-task-title" value={taskName} onChange={(event) => setTaskName(event.target.value)} placeholder="New Task" />
                 <div className="flex">
-                    <button onClick={(event) => submitTasks(event,taskName)} className="btn" style={{backgroundColor:"green", color:"white", fontWeight:"bold"}}>Done</button>
-                    <button className="btn" style={{backgroundColor:"red", marginRight:"20px", color:"white", fontWeight:"bold"}} onClick={onAdd}>Never Mind</button>
+                    <button onClick={(event) => submitTasks(event,taskName)} className="edit-task-btns" style={{backgroundColor:"green", color:"white", fontWeight:"bold"}}>Done</button>
+                    <button className="edit-task-btns" style={{backgroundColor:"red", marginRight:"20px", color:"white", fontWeight:"bold"}} onClick={onAdd}>Never Mind</button>
                 </div>
                 {/* <ItemRemoveButton removeGoal={() => props.removeTask(props.goal.id,props.task.id)} allDone="1" /> */}
             </div>

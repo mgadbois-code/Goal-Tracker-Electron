@@ -33,6 +33,52 @@ body {
   /* align-self:flex-start */
 }
 
+.edit-task-title {
+  width: 50vw;
+}
+
+.edit-task-btns {
+  font-size: 15px;
+  min-height: 60px;
+  border: none;
+  border-radius: 10px;
+  margin: 20px 0px 20px 10px;
+}
+@media(max-width:500px){
+  .edit-task-btns{
+    font-size: 12px;
+    margin-left: 0px;
+  }
+}
+
+.edit-goal-title {
+  width:auto;
+}
+@media(max-width:500px){
+  .edit-goal-title {
+    width: 40vw;
+  }
+}
+.goal-reorder {
+  padding: 0px;
+  margin: 0px;
+  font-size:5vw;
+  border: none;
+  background-color:white;
+}
+@media(min-width:500px){
+  .goal-reorder{
+    font-size: 40px;
+  }
+}
+.task-reorder {
+  padding: 0;
+  margin: 0;
+  font-size: 20px;
+  border: none;
+  background-color:white;
+}
+
 
 .small-btn {
   background-color: white;

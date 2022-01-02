@@ -41,12 +41,12 @@ const Goal = (props) => {
 
             {props.goal.dueDate !=="" && <h4 onClick={() => props.onToggle(props.goal.id)} className="detail">Due: {props.goal.dueDate} </h4>}
 
-            <div className="flex" >
+            <div className="flex" style={{overflow:"auto"}}>
                 {!props.goal.showSubGoals && tasks.map((task) =>{
                     if(task.done){
-                        return <p>✅</p>
+                        return <p className="flex">✅</p>
                     }
-                    return <p>⬜</p>
+                    return <p className="flex">⬜</p>
                 })}
             </div>
 

@@ -11,7 +11,8 @@ const createWindow = () => {
   const mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
-
+    icon: __dirname + '/favicon.ico',
+    minWidth: 400,
     webPreferences: {
       preload: path.join(__dirname, "preload.js")
     }
@@ -21,7 +22,7 @@ const createWindow = () => {
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
 
   mainWindow.setMenuBarVisibility(false)
 

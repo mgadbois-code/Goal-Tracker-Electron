@@ -90,8 +90,8 @@ const EditGoal = ({submitGoalEdits,toggleShowEditGoal,reOrderTaskUp,reOrderTaskD
         <div style={{border:"solid 6px", borderColor: color}}>
             <div className="flex header">
                 <div className="header">
-                    <input className="h3" placeholder={goal.title} value={goalName} onChange={(event) => {editGoalTitle(event.target.value)}}></input>
-                    <ReOrderButtons reOrderUp={() => reOrderGoalUp(goal.id,goals)} reOrderDown={() => reOrderGoalDown(goal.id,goals)} size="40px" />
+                    <input className="h3 edit-goal-title" placeholder={goal.title} value={goalName} onChange={(event) => {editGoalTitle(event.target.value)}}></input>
+                    <ReOrderButtons styling="goal-reorder" reOrderUp={() => reOrderGoalUp(goal.id,goals)} reOrderDown={() => reOrderGoalDown(goal.id,goals)} size="40px" />
                 </div>
     
                     <button onClick={() => {goal.showEditGoal=false;goal.tasks = taskArr;submitGoalEdits(goalId,goal)}} className="btn" style={{backgroundColor:color, marginRight:"20px", color:"black", fontWeight:"bold"}}>Done</button>
@@ -103,7 +103,7 @@ const EditGoal = ({submitGoalEdits,toggleShowEditGoal,reOrderTaskUp,reOrderTaskD
                     <HuePicker color={goal.color} onChange={(color,event) => editGoalColor(color,event)} />
                 {taskArr.map((task)=>
                     <div className="flex" style={{marginTop:"5px"}}>
-                        <ReOrderButtons reOrderUp={() => reOrderTaskUp(goalId,task.id,taskArr)} reOrderDown={() => reOrderTaskDown(goalId,task.id,taskArr)} size="20px" />
+                        <ReOrderButtons styling="task-reorder" reOrderUp={() => reOrderTaskUp(goalId,task.id,taskArr)} reOrderDown={() => reOrderTaskDown(goalId,task.id,taskArr)} size="20px" />
                         <input className="p" value={taskArr.filter(arrTask => arrTask.id == task.id)[0].title} onChange={(event) => {editTaskTitle(task.id,event.target.value)}}></input>
                         <ItemRemoveButton size="20px" className="p small-btn" removeGoal={() => {removeTask(task.id)}} allDone="1" />
                     </div>
