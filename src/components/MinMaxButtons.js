@@ -1,7 +1,7 @@
 import Button from "@restart/ui/esm/Button"
 import React from "react"
 
-const MinMaxButtons = ({toggleMiniTasks, toggleMiniGoals,miniGoals, miniTasks,component}) => {
+const MinMaxButtons = ({windowWidth,toggleMiniTasks, toggleMiniGoals,miniGoals, miniTasks,component}) => {
     return (
         <div style={{display:"flex", flexDirection:"row-reverse"}}>
 

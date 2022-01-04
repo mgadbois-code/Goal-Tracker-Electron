@@ -9,6 +9,7 @@ import GoalList from "./components/GoalList";
 import MinMaxButtons from "./components/MinMaxButtons";
 
 import React from "react"
+import { set } from "lodash";
 
 
 
@@ -20,12 +21,16 @@ function App({fetchGoals, updGoalsDB, updCompletedDB, showDialogBox}) {
   const [addToGoal, setAddToGoal] = useState("")
   const [minimizeTasks, setMinimizeTasks] = useState(false)
   const [minimizeGoals, setMinimizeGoals] = useState(false)
+  const [holdingTaskMinimize, setHoldingTaskMinimize] =useState(false);
+  const [holdingGoalMinimize, setHoldingGoalMinimize] =useState(false);
   const [goals, setGoals] = useState([ ])
   const [goalColor,setGoalColor] = useState("white")
+  const [windowWidth, setWindowWidth] = useState(800)
+
   const [showGoalEdit,setShowGoalEdit] = useState(false)
 
 
-
+//loads goals from db
   useEffect(() => {
     const getGoals = async () => {
       var goalsFromServer = await fetchGoals();
@@ -36,7 +41,79 @@ function App({fetchGoals, updGoalsDB, updCompletedDB, showDialogBox}) {
     getGoals()
 
   }, [])
+//
 
+
+  useEffect(() => {
+    function handleResize() {
+      // console.log('resized to: ', window.innerWidth, 'x', window.innerHeight)
+      setWindowWidth(window.innerWidth)
+      if( windowWidth < 645 && (!minimizeTasks && !minimizeGoals)){
+        setMinimizeGoals(true)
+        setHoldingGoalMinimize(true)
+      }
+      else if(windowWidth >= 645 && holdingGoalMinimize){
+        setMinimizeGoals(false);
+        setMinimizeTasks(false);
+        setHoldingGoalMinimize(false)
+      }
+      else{
+        setMinimizeTasks(minimizeTasks)
+        setMinimizeGoals(minimizeGoals)
+      }
+      // else{
+      //   setMinimizeGoals(false)
+      //   setMinimizeTasks(false)
+      // }
+      // if( windowWidth < 645 && !minimizeTasks && !minimizeGoals && holdingGoalMinimize){
+      //   setMinimizeTasks(true)
+      //   setHoldingGoalMinimize(false)
+
+      // }
+    
+}
+
+    window.addEventListener('resize', handleResize)
+    return _ => {
+      window.removeEventListener('resize', handleResize)
+    
+}
+    
+  })
+
+const toggleMiniTasks = () => {
+  console.log("toggleMiniTasks")
+  if(windowWidth < 645){
+    if(minimizeTasks){
+      setMinimizeTasks(false)
+      setMinimizeGoals(true)
+    }
+    if(!minimizeTasks){
+      setMinimizeTasks(true)
+      setMinimizeGoals(false)
+    }
+  }
+  else{
+    setMinimizeTasks(!minimizeTasks)
+  }
+}
+
+const toggleMiniGoals = () => {
+  console.log("toggleMiniGoals")
+  if(windowWidth < 645){
+    if(minimizeGoals){
+      setMinimizeGoals(false)
+      setMinimizeTasks(true)
+    }
+    if(!minimizeGoals){
+      setMinimizeGoals(true)
+      setMinimizeTasks(false)
+    }
+  }
+  else{
+    setMinimizeGoals(!minimizeGoals)
+  }
+}
 
 // used in GoalList component to toggle view of tasks in a goal with checkmarks
 const toggleSubGoals = (id) => {
@@ -393,7 +470,7 @@ const toggleVisible = async (goalId) => {
        
      {!minimizeTasks && <div className="container">
         {/* Tasks components */}
-        <MinMaxButtons component = "Tasks" miniTasks = {minimizeTasks} miniGoals = {minimizeGoals} toggleMiniTasks={() => setMinimizeTasks(!minimizeTasks)} toggleMiniGoals={() => setMinimizeGoals(!minimizeGoals)} />
+        <MinMaxButtons windowWidth={windowWidth} component = "Tasks" miniTasks = {minimizeTasks} miniGoals = {minimizeGoals} toggleMiniTasks={() => toggleMiniTasks()} toggleMiniGoals={() => toggleMiniGoals()} />
         {showAddTask ? <Header titleName="Tasks" buttonColor="red" buttonText="✖️ Never Mind" title="New Tasks" onAdd={() => (setShowAddTask(!showAddTask))}/> : 
         <Header titleName="Tasks" goals={goals} title="Tasks"  onAdd={handleDropDown} />}
         {showAddTask && <AddTask addToGoalColor={goals.filter(goal => goal.id == addToGoal)[0].color} 
@@ -403,7 +480,7 @@ const toggleVisible = async (goalId) => {
 
       {!minimizeGoals && <div className = "container">
         {/* Goals components */}
-        <MinMaxButtons component = "Goals" miniTasks = {minimizeTasks} miniGoals = {minimizeGoals} toggleMiniTasks={() => setMinimizeTasks(!minimizeTasks)} toggleMiniGoals={() => setMinimizeGoals(!minimizeGoals)} />
+        <MinMaxButtons windowWidth={windowWidth} component = "Goals" miniTasks = {minimizeTasks} miniGoals = {minimizeGoals} toggleMiniTasks={() => toggleMiniTasks()} toggleMiniGoals={() => setMinimizeGoals(!minimizeGoals)} />
        {showAddGoal || goals.length == 0 ? <header className="header h1">Add Goal</header> :  
        <Header titleName="Goals"  buttonColor="green" buttonText="Add"title="Goals" onAdd={() => createNewGoal()}/>}
         {showAddGoal || goals.length == 0 ? <AddGoal setShowGoals={() => setShowAddGoal(false)} addGoal={addGoal} onChange={handleColorChange} showDialogBox={showDialogBox}/>:

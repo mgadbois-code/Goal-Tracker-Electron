@@ -97,7 +97,7 @@ const EditGoal = ({submitGoalEdits,toggleShowEditGoal,reOrderTaskUp,reOrderTaskD
                     <button onClick={() => {goal.showEditGoal=false;goal.tasks = taskArr;submitGoalEdits(goalId,goal)}} className="btn" style={{backgroundColor:color, marginRight:"20px", color:"black", fontWeight:"bold"}}>Done</button>
  
             </div>
-           <input className="h4" placeholder="Due Date" value={goalDueDate} onChange={(event) => {editGoalDueDate(event.target.value)}} />
+           <input className="h4 edit-due-date" placeholder="Due Date" value={goalDueDate} onChange={(event) => {editGoalDueDate(event.target.value)}} />
             <div className="flex">
                 <div>
                     <HuePicker color={goal.color} onChange={(color,event) => editGoalColor(color,event)} />

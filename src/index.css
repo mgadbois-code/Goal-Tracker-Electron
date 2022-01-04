@@ -34,7 +34,7 @@ body {
 }
 
 .edit-task-title {
-  width: 50vw;
+  width: 1000%;
 }
 
 .edit-task-btns {
@@ -52,21 +52,24 @@ body {
 }
 
 .edit-goal-title {
-  width:auto;
+  width: 1000%;
 }
 @media(max-width:500px){
   .edit-goal-title {
     width: 40vw;
   }
 }
+.edit-due-date{
+  width: 10vw
+}
 .goal-reorder {
   padding: 0px;
   margin: 0px;
-  font-size:5vw;
+  font-size:40px;
   border: none;
   background-color:white;
 }
-@media(min-width:500px){
+@media(min-width:500){
   .goal-reorder{
     font-size: 40px;
   }
