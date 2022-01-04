@@ -1,8 +1,8 @@
 {
-  "name": "task-tracker-electron",
-  "productName": "task-tracker-electron",
+  "name": "Color_Planner",
+  "productName": "Color_Planner",
   "version": "1.0.0",
-  "description": "My Electron application description",
+  "description": "Set and complete your goals and tasks",
   "main": ".webpack/main",
   "scripts": {
     "start": "electron-forge start",
@@ -19,12 +19,15 @@
   "license": "MIT",
   "config": {
     "forge": {
-      "packagerConfig": {},
+      "packagerConfig": {
+        "icon": "./src/favicon.ico"
+      },
       "makers": [
         {
           "name": "@electron-forge/maker-squirrel",
           "config": {
-            "name": "task_tracker_electron"
+            "name": "Color_Planner"
+            
           }
         },
         {
