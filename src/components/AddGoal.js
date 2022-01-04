@@ -67,16 +67,16 @@ const AddGoal = (props) => {
             <div className="goal-form">
                 <div className= "add-field">
                     <label>Goal Name: </label>
-                    <input onKeyPress={handleKeyPress} type="text" value={goalName}  onChange={(event) => {event.preventDefault(); setGoalName(event.target.value)}} placeholder="Goal Title" />
+                    <input onKeyPress={handleKeyPress} type="text" value={goalName}  onChange={(event) => {event.preventDefault(); setGoalName(event.target.value)}} placeholder="Name Your Goal" />
                 </div>
                 <div className= "add-field">
                     <label>Due Date (optional): </label>
-                    <input onKeyPress={handleKeyPress} type="text" value={dueDate} onChange={(event) => setDueDate(event.target.value)} placeholder="Due Date"/>
+                    <input onKeyPress={handleKeyPress} type="text" value={dueDate} onChange={(event) => setDueDate(event.target.value)} placeholder="Set Due Date"/>
                 </div>
                 <div style={{display: "flex", alignItems:"center"}}>
                         <label style={{marginRight: 5}}>Tasks: </label>
-                        <input type="text" value={taskName} onChange= {(event) => setTaskName(event.target.value)} placeholder="Add Task"/>
-                        <button onClick={(event) => addTask(event)} className="plus-btn"> ➕ </button>
+                        <input type="text" style={{marginRight:"5px"}} value={taskName} onChange= {(event) => setTaskName(event.target.value)} placeholder="Add Task"/>
+                        <button onClick={(event) => addTask(event)} className="plus-btn" style={{backgroundColor:"green", color:"white",fontSize:"20px",fontWeight:"bold",margin:"5px 0px 5px 0px", padding:"0px 5px 0px 5px"}}> + </button>
                 </div>
                 <ul style={{listStyleType:"none", width:"90%"}} >
                     {taskArr.map((task)=> <li style={{backgroundColor:color, margin:"4px", fontWeight:"bold", padding:"2px"}} className="pointer"  onClick={() => removeTask(event,task)} ><span style={{fontSize:"15px", fontWeight:"initial"}}> ❌ </span> {task.title}</li>)}

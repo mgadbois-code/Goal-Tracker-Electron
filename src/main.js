@@ -9,6 +9,7 @@ if (require('electron-squirrel-startup')) { // eslint-disable-line global-requir
 const createWindow = () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
+    show: false,
     width: 800,
     height: 600,
     icon: __dirname + '/favicon.ico',
@@ -17,16 +18,20 @@ const createWindow = () => {
       preload: path.join(__dirname, "preload.js")
     }
   });
-
+  mainWindow.once('ready-to-show', () => {
+    mainWindow.show()
+  })
   // and load the index.html of the app.
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools();
-
+  // mainWindow.webContents.openDevTools();
+  
+  
   mainWindow.setMenuBarVisibility(false)
-
+  
 };
+
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
