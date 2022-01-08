@@ -4,8 +4,8 @@ import React from "react"
 
 
 const TaskList = (props) => {
-    let tasks = props.goals.filter(goal => goal.visible).map((goal) => goal.tasks.filter((task) => !task.done))
-    if (tasks.length == 0){
+    let tasks = props.goals.filter(goal => goal.visible).map((goal) => goal.tasks.filter((task) => !task.done)).reduce((prev,curr)=> prev.concat(curr), [])
+    if (tasks.filter(task => !task.done).length == 0){
         return <h3 style={{color:"gray", marginLeft:"25%" }}>No Tasks To Show</h3>
     }
 
