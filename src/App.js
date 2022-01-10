@@ -322,7 +322,9 @@ const addGoal = async(goal) => {
 }
 
 const createNewGoal = () => {
-  let newGoal = {title:"New Goal",dueDate:"",showEditGoal:true, showSubGoals:false,color:"#ff000080",visible:true,tasks:[] }
+  let randomHue = Math.floor(Math.random()*360).toString() 
+  let randomColor = `hsl(${randomHue},100%,80%)`
+  let newGoal = {title:"New Goal",dueDate:"",showEditGoal:true, showSubGoals:false,color:randomColor,visible:true,tasks:[] }
   addGoal(newGoal);
   
 }
@@ -423,6 +425,9 @@ const handleDropDown = (eventKey,event) => {
   }
   else{
     // setMinimizeTasks(true);
+    if (windowWidth < 645){
+      setMinimizeTasks(true)
+    }
     setMinimizeGoals(false);
     createNewGoal();
   }
@@ -467,7 +472,6 @@ const toggleVisible = async (goalId) => {
   return (
     <div className="App">
 
-       
      {!minimizeTasks && <div className="container">
         {/* Tasks components */}
         <MinMaxButtons windowWidth={windowWidth} component = "Tasks" miniTasks = {minimizeTasks} miniGoals = {minimizeGoals} toggleMiniTasks={() => toggleMiniTasks()} toggleMiniGoals={() => toggleMiniGoals()} />
@@ -481,13 +485,13 @@ const toggleVisible = async (goalId) => {
       {!minimizeGoals && <div className = "container">
         {/* Goals components */}
         <MinMaxButtons windowWidth={windowWidth} component = "Goals" miniTasks = {minimizeTasks} miniGoals = {minimizeGoals} toggleMiniTasks={() => toggleMiniTasks()} toggleMiniGoals={() => setMinimizeGoals(!minimizeGoals)} />
-       {showAddGoal || goals.length == 0 ? <header className="header h1">Add Goal</header> :  
+       {showAddGoal || goals.length == 0 ? <Header titleName="⟵  Add A Goal!"  buttonColor="green" buttonText="Add"title="Goals" onAdd={() => createNewGoal()}></Header> :  
        <Header titleName="Goals"  buttonColor="green" buttonText="Add"title="Goals" onAdd={() => createNewGoal()}/>}
-        {showAddGoal || goals.length == 0 ? <AddGoal setShowGoals={() => setShowAddGoal(false)} addGoal={addGoal} onChange={handleColorChange} showDialogBox={showDialogBox}/>:
+        
         <GoalList showDialogBox={showDialogBox} submitGoalEdits={submitGoalEdits}
          reOrderGoalUp={reOrderGoalUp} reOrderGoalDown={reOrderGoalDown} reOrderTaskUp={reOrderTaskUp} reOrderTaskDown={reOrderTaskDown} 
          goals={goals}  removeGoal={removeGoal} addTask={addTask} removeTask={removeTask} onToggle ={toggleSubGoals} toggleDone={toggleDone} toggleVisible={toggleVisible} 
-         toggleShowEditGoal={toggleEditGoal} />}
+         toggleShowEditGoal={toggleEditGoal} />
       </div>}
 
     </div>

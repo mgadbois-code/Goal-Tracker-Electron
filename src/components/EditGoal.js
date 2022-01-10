@@ -78,6 +78,7 @@ const EditGoal = ({submitGoalEdits,toggleShowEditGoal,reOrderTaskUp,reOrderTaskD
         })
         // setTaskArr(tasks)
         goal.tasks = tasks
+        submitGoalEdits(goal.id,goal)
     }
 
     const handleKeyPress = (event) => {
@@ -93,14 +94,17 @@ const EditGoal = ({submitGoalEdits,toggleShowEditGoal,reOrderTaskUp,reOrderTaskD
         <div style={{border:"solid 6px", borderColor: color}}>
             <div className="flex header">
                 <div className="header">
-                    <input className="h3 edit-goal-title" placeholder={goal.title} value={goalName} onChange={(event) => {editGoalTitle(event.target.value)}}></input>
+                    <input autoFocus className="h3 edit-goal-title" placeholder={goal.title} value={goalName} onChange={(event) => {editGoalTitle(event.target.value)}}></input>
                     <ReOrderButtons styling="goal-reorder" reOrderUp={() => {reOrderGoalUp(goal.id,goals)}} reOrderDown={() => {reOrderGoalDown(goal.id,goals)}} size="40px" />
                 </div>
     
                     <button onClick={() => {goal.showEditGoal=false;submitGoalEdits(goalId,goal)}} className="btn" style={{backgroundColor:color, marginRight:"20px", color:"black", fontWeight:"bold"}}>Done</button>
  
             </div>
-           <input className="h5 edit-due-date" placeholder="Due Date" value={goalDueDate} onChange={(event) => {editGoalDueDate(event.target.value)}} />
+          
+                    <h6>Due Date <span style={{color:"gray"}}>(Optional)</span>: </h6>
+                    <input type="date" className="h6 edit-due-date" placeholder="Due Date" value={goalDueDate} onChange={(event) => {editGoalDueDate(event.target.value)}} />
+               
             <div className="flex">
                 <div>
                     <HuePicker color={goal.color} onChange={(color,event) => editGoalColor(color,event)} />
