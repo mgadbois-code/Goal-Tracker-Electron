@@ -543,15 +543,7 @@ const toggleVisible = async (goalId) => {
   return (
     <div className="App">
 
-     {!minimizeTasks && <div className="container">
-        {/* Tasks components */}
-        <MinMaxButtons windowWidth={windowWidth} component = "Tasks" miniTasks = {minimizeTasks} miniGoals = {minimizeGoals} toggleMiniTasks={() => toggleMiniTasks()} toggleMiniGoals={() => toggleMiniGoals()} />
-        {showAddTask ? <Header titleName="Tasks" buttonColor="red" buttonText="✖️ Never Mind" title="New Tasks" onAdd={() => (setShowAddTask(!showAddTask))}/> : 
-        <Header titleName="Tasks" goals={goals} title="Tasks"  onAdd={handleDropDown} />}
-        {showAddTask && <AddTask addToGoalColor={goals.filter(goal => goal.id == addToGoal)[0].color} 
-        onSubmit={submitTasks} buttonColor="red" buttonText="✖️ Never Mind" title="New Tasks" onAdd={() => (setShowAddTask(!showAddTask))}/>}
-        <TaskList goals={goals} removeTask={removeTask}  onToggle={toggleDone} />
-      </div>}
+    
 
       {!minimizeGoals && <div className = "container">
         {/* Goals components */}
@@ -570,6 +562,16 @@ const toggleVisible = async (goalId) => {
           reOrderGoalUp={reOrderGoalUp} reOrderGoalDown={reOrderGoalDown} reOrderTaskUp={reOrderTaskUp} reOrderTaskDown={reOrderTaskDown} 
           goals={goals}  removeGoal={removeGoal} addTask={addTask} removeTask={removeTask} onToggle ={toggleSubGoals} toggleDone={toggleDone} toggleVisible={toggleVisible} 
           toggleShowEditGoal={toggleEditGoal} />}
+      </div>}
+
+      {!minimizeTasks && <div className="container">
+        {/* Tasks components */}
+        <MinMaxButtons windowWidth={windowWidth} component = "Tasks" miniTasks = {minimizeTasks} miniGoals = {minimizeGoals} toggleMiniTasks={() => toggleMiniTasks()} toggleMiniGoals={() => toggleMiniGoals()} />
+        {showAddTask ? <Header titleName="Tasks" buttonColor="red" buttonText="✖️ Never Mind" title="New Tasks" onAdd={() => (setShowAddTask(!showAddTask))}/> : 
+        <Header titleName="Tasks" goals={goals} title="Tasks"  onAdd={handleDropDown} />}
+        {showAddTask && <AddTask addToGoalColor={goals.filter(goal => goal.id == addToGoal)[0].color} 
+        onSubmit={submitTasks} buttonColor="red" buttonText="✖️ Never Mind" title="New Tasks" onAdd={() => (setShowAddTask(!showAddTask))}/>}
+        <TaskList goals={goals} removeTask={removeTask}  onToggle={toggleDone} />
       </div>}
 
     </div>

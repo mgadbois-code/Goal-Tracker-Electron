@@ -1,7 +1,7 @@
 {
   "name": "color-planner",
   "productName": "Color Planner",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "Set and complete your goals and tasks",
   "main": ".webpack/main",
   "scripts": {
@@ -27,7 +27,6 @@
           "name": "@electron-forge/maker-squirrel",
           "config": {
             "name": "Color_Planner"
-            
           }
         },
         {
