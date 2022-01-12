@@ -35,8 +35,8 @@ const AddTask = ({addToGoalColor,onSubmit,buttonColor, buttonText, title, onAdd}
             <div className="header">
                 <input autoFocus className="h3 detail edit-task-title" value={taskName} onChange={(event) => setTaskName(event.target.value)} onKeyPress={handleKeyPress} placeholder="New Task" />
                 <div className="flex">
-                    <button onClick={(event) => submitTasks(event,taskName)} className="edit-task-btns" style={{backgroundColor:"green", color:"white", fontWeight:"600"}}>Done</button>
-                    <button className="edit-task-btns" style={{backgroundColor:"red", marginRight:"20px", color:"white", fontWeight:"600"}} onClick={onAdd}>Never Mind</button>
+                    <button onClick={(event) => submitTasks(event,taskName)} className="edit-task-btns" style={{backgroundColor:"green", color:"white", fontWeight:"400"}}>Done</button>
+                    <button className="edit-task-btns" style={{backgroundColor:"red", marginRight:"20px", color:"white", fontWeight:"400"}} onClick={onAdd}>Never Mind</button>
                 </div>
                 {/* <ItemRemoveButton removeGoal={() => props.removeTask(props.goal.id,props.task.id)} allDone="1" /> */}
             </div>

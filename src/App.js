@@ -7,22 +7,25 @@ import TaskList from "./components/TaskList";
 import AddGoal from "./components/AddGoal";
 import GoalList from "./components/GoalList";
 import MinMaxButtons from "./components/MinMaxButtons";
+import CompletedList from "./components/CompletedList";
 
 import React from "react"
 import { set } from "lodash";
 
 
 
-function App({fetchGoals, updGoalsDB, updCompletedDB, showDialogBox}) {
+function App({fetchGoals, updGoalsDB, updCompletedDB, fetchCompleted, showDialogBox}) {
 
   
   const [showAddGoal, setShowAddGoal] = useState(false)
   const [showAddTask, setShowAddTask] = useState(false)
+  const [showCompleted, setShowCompleted] = useState(false)
   const [addToGoal, setAddToGoal] = useState("")
   const [minimizeTasks, setMinimizeTasks] = useState(false)
   const [minimizeGoals, setMinimizeGoals] = useState(false)
   const [holdingTaskMinimize, setHoldingTaskMinimize] =useState(false);
   const [holdingGoalMinimize, setHoldingGoalMinimize] =useState(false);
+  const [completed, setCompleted] = useState([ ])
   const [goals, setGoals] = useState([ ])
   const [goalColor,setGoalColor] = useState("white")
   const [windowWidth, setWindowWidth] = useState(800)
@@ -33,12 +36,18 @@ function App({fetchGoals, updGoalsDB, updCompletedDB, showDialogBox}) {
 //loads goals from db
   useEffect(() => {
     const getGoals = async () => {
-      var goalsFromServer = await fetchGoals();
+      var goalsFromFile = await fetchGoals();
 
-      let g = await JSON.parse(goalsFromServer).goals
+      let g = await JSON.parse(goalsFromFile).goals
       setGoals(g)
     }
+    const getCompleted = async () => {
+      var completedFromFile = await fetchCompleted();
+      let c = await JSON.parse(completedFromFile).completed
+      setCompleted(c)
+    }
     getGoals()
+    getCompleted()
 
   }, [])
 //
@@ -129,6 +138,16 @@ const toggleSubGoals = (id) => {
   
 }
 
+const toggleSubCompleted = (id) => {
+  setCompleted(completed.map((goal) => {
+    if(goal.id == id){
+      let newGoal = {...goal, showSubGoals: !goal.showSubGoals}
+      return newGoal
+    }
+    return goal
+  }))
+}
+
 const toggleEditGoal = (id) => {
   console.log("goal id: " + id)
   setGoals(goals.map((goal) => {
@@ -161,10 +180,22 @@ const removeGoal = async (goalId, done) => {
   })
   setGoals(newGoals)
   if(done){
-    await updCompletedDB(removedGoal)
+    removedGoal.id = completed.length + 1
+    setCompleted([removedGoal, ...completed])
+    await updCompletedDB(completed)
     //
   }
   await updGoalsDB(newGoals)
+}
+
+const removeCompleted = async (goalId) => {
+  let newCompleted = completed.filter((goal) => goal.id != goalId)
+  newCompleted = newCompleted.map((goal,index) => {
+    goal.id = index + 1
+    return goal
+  })
+  setCompleted(newCompleted)
+  updCompletedDB(newCompleted)
 }
 
 //used to be async
@@ -322,7 +353,7 @@ const addGoal = async(goal) => {
 }
 
 const createNewGoal = () => {
-  let randomHue = Math.floor(Math.random()*360).toString() 
+  let randomHue = (Math.floor(Math.random()*3600)/10).toString() 
   let randomColor = `hsl(${randomHue},100%,80%)`
   let newGoal = {title:"New Goal",dueDate:"",showEditGoal:true, showSubGoals:false,color:randomColor,visible:true,tasks:[] }
   addGoal(newGoal);
@@ -394,6 +425,7 @@ const reOrderGoalUp = (goalId) => {
     }
 }
 setGoals(goalsArr)
+// updGoalsDB(goalsArr)
 
 }
 
@@ -412,6 +444,45 @@ const reOrderGoalDown = (goalId) => {
     }
 }
 setGoals(goalsArr)
+// updGoalsDB(goalsArr)
+
+}
+
+const reOrderCompletedUp = (goalId) => {
+  let completedArr = [...completed]
+  for(let i = 0; i< completedArr.length; i++){
+    if(completedArr[i].id == goalId){
+        let switchIndex = i-1;
+        if(i == 0){
+            switchIndex = completedArr.length -1
+        }
+        let tempGoal = completedArr[switchIndex]
+        completedArr[switchIndex] = completedArr[i]
+        completedArr[i] = tempGoal;
+        break;
+    }
+}
+setCompleted(completedArr)
+updCompletedDB(completedArr)
+
+}
+
+const reOrderCompletedDown = (goalId) => {
+  let completedArr = [...completed]
+  for(let i = 0; i< completedArr.length; i++){
+    if(completedArr[i].id == goalId){
+        let switchIndex = i+1
+        if(i == completedArr.length -1){
+            switchIndex = 0
+        }
+        let tempGoal = completedArr[switchIndex]
+        completedArr[switchIndex] = completedArr[i]
+        completedArr[i] = tempGoal;
+        break;
+    }
+}
+setCompleted(completedArr)
+updCompletedDB(completedArr)
 
 }
 
@@ -484,14 +555,21 @@ const toggleVisible = async (goalId) => {
 
       {!minimizeGoals && <div className = "container">
         {/* Goals components */}
+        <div style={{display:"flex", flexDirection:"row-reverse" }}>
         <MinMaxButtons windowWidth={windowWidth} component = "Goals" miniTasks = {minimizeTasks} miniGoals = {minimizeGoals} toggleMiniTasks={() => toggleMiniTasks()} toggleMiniGoals={() => setMinimizeGoals(!minimizeGoals)} />
-       {showAddGoal || goals.length == 0 ? <Header titleName="⟵  Add A Goal!"  buttonColor="green" buttonText="Add"title="Goals" onAdd={() => createNewGoal()}></Header> :  
+       { !showCompleted && completed.length > 0 ?<button className="completed-btn" onClick={() => setShowCompleted(!showCompleted)}>Completed</button> : (completed.length > 0 || showCompleted) && <button className="completed-btn" style={{backgroundColor:"steelblue"}} onClick={() => setShowCompleted(!showCompleted)}>Uncompleted</button> }
+        </div>
+       
+       {showCompleted ? <h1 style={{display:"flex", justifyContent:"space-around"}}>Completed Goals</h1> : showAddGoal || goals.length == 0 ? <Header titleName="⟵  Add A Goal!"  buttonColor="green" buttonText="Add"title="Goals" onAdd={() => createNewGoal()}></Header> :  
        <Header titleName="Goals"  buttonColor="green" buttonText="Add"title="Goals" onAdd={() => createNewGoal()}/>}
-        
-        <GoalList showDialogBox={showDialogBox} submitGoalEdits={submitGoalEdits}
-         reOrderGoalUp={reOrderGoalUp} reOrderGoalDown={reOrderGoalDown} reOrderTaskUp={reOrderTaskUp} reOrderTaskDown={reOrderTaskDown} 
-         goals={goals}  removeGoal={removeGoal} addTask={addTask} removeTask={removeTask} onToggle ={toggleSubGoals} toggleDone={toggleDone} toggleVisible={toggleVisible} 
-         toggleShowEditGoal={toggleEditGoal} />
+        {showCompleted ? 
+        <CompletedList completed={completed} showDialogBox={showDialogBox} submitGoalEdits={submitGoalEdits}
+          reOrderCompletedUp={reOrderCompletedUp} reOrderCompletedDown={reOrderCompletedDown} removeGoal={removeCompleted} onToggle ={toggleSubCompleted}/> 
+          : 
+          <GoalList showDialogBox={showDialogBox} submitGoalEdits={submitGoalEdits}
+          reOrderGoalUp={reOrderGoalUp} reOrderGoalDown={reOrderGoalDown} reOrderTaskUp={reOrderTaskUp} reOrderTaskDown={reOrderTaskDown} 
+          goals={goals}  removeGoal={removeGoal} addTask={addTask} removeTask={removeTask} onToggle ={toggleSubGoals} toggleDone={toggleDone} toggleVisible={toggleVisible} 
+          toggleShowEditGoal={toggleEditGoal} />}
       </div>}
 
     </div>

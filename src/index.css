@@ -103,6 +103,25 @@ body {
   justify-self: center; */
 }
 
+.completed-btn {
+  margin-right:5px; 
+  background-color:yellow; 
+  border-radius: 5px;
+  border: 2px black solid;
+  font-weight: 600
+}
+.completed-btn:active {
+  transform: scale(.95);
+}
+
+.completed-reorder {
+  padding: 0px;
+  margin: 0px;
+  font-size:27px;
+  border: none;
+  background-color:white;
+}
+
 .btn:active {
   transform: scale(.95);
 }

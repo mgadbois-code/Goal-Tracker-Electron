@@ -91,19 +91,19 @@ const EditGoal = ({submitGoalEdits,toggleShowEditGoal,reOrderTaskUp,reOrderTaskD
       }
 
     return (
-        <div style={{border:"solid 6px", borderColor: color}}>
+        <div style={{border:"solid 6px", borderColor: goal.color}}>
             <div className="flex header">
                 <div className="header">
-                    <input autoFocus className="h3 edit-goal-title" placeholder={goal.title} value={goalName} onChange={(event) => {editGoalTitle(event.target.value)}}></input>
-                    <ReOrderButtons styling="goal-reorder" reOrderUp={() => {reOrderGoalUp(goal.id,goals)}} reOrderDown={() => {reOrderGoalDown(goal.id,goals)}} size="40px" />
+                    <input autoFocus className="h3 edit-goal-title" placeholder={goal.title} value={goal.title} onChange={(event) => {editGoalTitle(event.target.value)}}></input>
+                    <ReOrderButtons styling="goal-reorder" reOrderUp={() => {reOrderGoalUp(goal.id)}} reOrderDown={() => {reOrderGoalDown(goal.id)}} size="40px" />
                 </div>
     
-                    <button onClick={() => {goal.showEditGoal=false;submitGoalEdits(goalId,goal)}} className="btn" style={{backgroundColor:color, marginRight:"20px", color:"black", fontWeight:"bold"}}>Done</button>
+                    <button onClick={() => {goal.showEditGoal=false;submitGoalEdits(goalId,goal)}} className="btn" style={{backgroundColor:goal.color, marginRight:"20px", color:"black", fontWeight:"bold"}}>Done</button>
  
             </div>
           
                     <h6>Due Date <span style={{color:"gray"}}>(Optional)</span>: </h6>
-                    <input type="date" className="h6 edit-due-date" placeholder="Due Date" value={goalDueDate} onChange={(event) => {editGoalDueDate(event.target.value)}} />
+                    <input type="date" className="h6 edit-due-date" placeholder="Due Date" value={goal.dueDate} onChange={(event) => {editGoalDueDate(event.target.value)}} />
                
             <div className="flex">
                 <div>

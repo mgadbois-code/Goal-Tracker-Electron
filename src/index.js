@@ -7,8 +7,14 @@ async function fetchGoals(){
     return goals
 }
 
+
 async function updGoalsDB(args){
     var result = myApp.updGoalsDB(args)
+}
+
+async function fetchCompleted() {
+    var completed = await myApp.fetchCompleted()
+    return completed;
 }
 
 async function updCompletedDB(args){
@@ -23,6 +29,6 @@ async function showDialogBox(args){
 
 ReactDOM.render(
     <div>
-        <App updGoalsDB={updGoalsDB} fetchGoals={fetchGoals} updCompletedDB={updCompletedDB} showDialogBox={showDialogBox} />
+        <App updGoalsDB={updGoalsDB} fetchGoals={fetchGoals} updCompletedDB={updCompletedDB} fetchCompleted={fetchCompleted} showDialogBox={showDialogBox} />
     </div>
     , document.getElementById("root"))

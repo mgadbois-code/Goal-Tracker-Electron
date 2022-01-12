@@ -59,8 +59,12 @@ app.on('activate', () => {
 // code. You can also put them in separate files and import them here.
 
 ipcMain.handle("fetch-goals", async(event) => {
-  
-  return fs.readFileSync("db.json","utf8")
+  try {
+    return fs.readFileSync("db.json","utf8")
+  }
+  catch{
+    return fs.writeFileSync("db.json",'{"goals":[]}')
+  }
 })
 
 ipcMain.handle("update-goals", async (event,args) => {
@@ -75,13 +79,22 @@ ipcMain.handle("update-goals", async (event,args) => {
 
 ipcMain.handle("update-completed" , async(event,args) => {
   let data = JSON.parse(fs.readFileSync("completed.json","utf8"))
-  args.id = data.goals.length + 1
+  // args.id = data.goals.length + 1
   
-  data.goals = data.goals.concat(args)
+  data.completed = args
   
   let updData = JSON.stringify(data)
   fs.writeFileSync("completed.json", updData)
+  return
+})
 
+ipcMain.handle("fetch-completed", async(event) => {
+  try {
+    return fs.readFileSync("completed.json","utf8")
+  }
+  catch{
+    return fs.writeFileSync("completed.json",'{"completed":[]}')
+  }
 })
  
 ipcMain.handle("show-dialog-box", async(event,args) => {
