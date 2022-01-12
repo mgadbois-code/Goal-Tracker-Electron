@@ -18,7 +18,7 @@ const Completed = ({goal, removeGoal,onToggle,reOrderCompletedUp,reOrderComplete
     const done = true
     
     return (
-        <div className="item pointer" style={{border:"solid 6px", borderColor: goal.color} } onClick={() => onToggle(goal.id)} >
+        <div className="item pointer" style={{border:"solid 6px", borderColor: goal.color, overflow:"auto"} } onClick={() => onToggle(goal.id) } >
             
             <div className="header" style={{marginTop:"-5px"}}>
                <div className="flex">
@@ -26,6 +26,7 @@ const Completed = ({goal, removeGoal,onToggle,reOrderCompletedUp,reOrderComplete
                     <ReOrderButtons styling="completed-reorder" reOrderUp={(event) => {reOrderCompletedUp(goal.id);}} reOrderDown={(event) => {reOrderCompletedDown(goal.id)}} />
                 </div>
                 <div className="header">
+                    
                     <button className="btn h2" style={{fontSize:"25px"}} onClick={(event) => {event.stopPropagation(); removeGoal(goal.id)}}>🗑️</button>
                 </div>
 

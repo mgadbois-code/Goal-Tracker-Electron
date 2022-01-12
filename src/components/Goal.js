@@ -23,7 +23,7 @@ const Goal = (props) => {
     }
 
     return (
-        <div className="item pointer" style={{border:"solid 6px", borderColor: props.goal.color}} onClick={() => props.onToggle(props.goal.id)}>
+        <div className="item pointer" style={{border:"solid 6px", borderColor: props.goal.color, overflow:"auto"}} onClick={() => props.onToggle(props.goal.id)}>
             
             <div className="header" style={{marginTop:"-5px"}}>
                 {/* goal title */}

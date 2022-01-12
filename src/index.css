@@ -119,7 +119,10 @@ body {
   margin: 0px;
   font-size:27px;
   border: none;
-  background-color:white;
+  background-color:transparent;
+}
+.completed-reorder:active {
+  transform: scale(.95);
 }
 
 .btn:active {
