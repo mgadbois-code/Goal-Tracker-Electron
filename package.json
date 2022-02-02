@@ -1,7 +1,7 @@
 {
   "name": "color-planner",
   "productName": "Color Planner",
-  "version": "1.5.1",
+  "version": "1.5.2",
   "description": "Set and complete your goals and tasks",
   "main": ".webpack/main",
   "scripts": {
