@@ -60,40 +60,40 @@ app.on('activate', () => {
 
 ipcMain.handle("fetch-goals", async(event) => {
   try {
-    return fs.readFileSync("db.json","utf8")
+    return fs.readFileSync(__dirname + "/db.json","utf8")
   }
   catch{
-    return fs.writeFileSync("db.json",'{"goals":[]}')
+    return fs.writeFileSync(__dirname + "/db.json",'{"goals":[]}')
   }
 })
 
 ipcMain.handle("update-goals", async (event,args) => {
-  let data = JSON.parse(fs.readFileSync("db.json","utf8"))
+  let data = JSON.parse(fs.readFileSync(__dirname + "/db.json","utf8"))
   
   data.goals = args
   
   let updData = JSON.stringify(data)
-  fs.writeFileSync("db.json", updData)
+  fs.writeFileSync(__dirname + "/db.json", updData)
 
 })
 
 ipcMain.handle("update-completed" , async(event,args) => {
-  let data = JSON.parse(fs.readFileSync("completed.json","utf8"))
+  let data = JSON.parse(fs.readFileSync(__dirname+"/completed.json","utf8"))
   // args.id = data.goals.length + 1
   
   data.completed = args
   
   let updData = JSON.stringify(data)
-  fs.writeFileSync("completed.json", updData)
+  fs.writeFileSync(__dirname+"/completed.json", updData)
   return
 })
 
 ipcMain.handle("fetch-completed", async(event) => {
   try {
-    return fs.readFileSync("completed.json","utf8")
+    return fs.readFileSync(__dirname+"/completed.json","utf8")
   }
   catch{
-    return fs.writeFileSync("completed.json",'{"completed":[]}')
+    return fs.writeFileSync(__dirname+"/completed.json",'{"completed":[]}')
   }
 })
  

@@ -44,9 +44,9 @@ const Goal = (props) => {
             <div className="flex" style={{overflow:"auto"}}>
                 {!props.goal.showSubGoals && tasks.map((task) =>{
                     if(task.done){
-                        return <p className="flex">✅</p>
+                        return <p className="flex" style={{marginRight:"7px"}}>✅ </p>
                     }
-                    return <p className="flex">⬜</p>
+                    return <p className="flex" style={{marginRight:"7px"}}>⬜ </p>
                 })}
             </div>
 

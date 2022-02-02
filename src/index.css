@@ -147,13 +147,14 @@ body {
 }
 
 .done-true {
-  list-style-type: "✅";
+
+  list-style-type: "✅  ";
   cursor: pointer;
   
 
 }
 .done-false {
-  list-style-type: "⬜";
+  list-style-type: "⬜  ";
   cursor: pointer;
   
 }

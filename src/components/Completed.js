@@ -37,9 +37,9 @@ const Completed = ({goal, removeGoal,onToggle,reOrderCompletedUp,reOrderComplete
             <div className="flex" style={{overflow:"auto"}}>
                 {!goal.showSubGoals && tasks.map((task) =>{
                     if(task.done){
-                        return <p className="flex">✅</p>
+                        return <p className="flex" style={{marginRight:"7px"}}>✅</p>
                     }
-                    return <p className="flex">⬜</p>
+                    return <p className="flex" style={{marginRight:"7px"}}>⬜</p>
                 })}
             </div>
 

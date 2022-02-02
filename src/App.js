@@ -181,8 +181,10 @@ const removeGoal = async (goalId, done) => {
   setGoals(newGoals)
   if(done){
     removedGoal.id = completed.length + 1
-    setCompleted([removedGoal, ...completed])
-    await updCompletedDB(completed)
+    removedGoal.showSubGoals = false
+    let newCompleted = [removedGoal, ...completed]
+    setCompleted(newCompleted)
+    await updCompletedDB(newCompleted)
     //
   }
   await updGoalsDB(newGoals)
