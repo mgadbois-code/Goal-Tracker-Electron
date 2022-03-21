@@ -1,1 +1,1 @@
-{"completed":[]}
+{"completed":[{"title":"New Goal","dueDate":"","showEditGoal":false,"showSubGoals":false,"color":"hsl(68.6,100%,80%)","visible":true,"tasks":[{"id":1,"title":"task one","done":true,"today":true,"dateDone":"2/17/2022"},{"id":2,"title":"task two","done":true,"today":true,"dateDone":"2/17/2022"}],"id":1}]}

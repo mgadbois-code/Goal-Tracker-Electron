@@ -1,1 +1,1 @@
-{"goals":[]}
+{"goals":[{"title":"New Goal","dueDate":"","showEditGoal":false,"showSubGoals":true,"color":"hsl(216.6,100%,80%)","tasks":[{"id":1,"title":"ewr","done":false,"today":false},{"id":2,"title":"ewrew","done":false,"today":false}],"id":1},{"title":"New Goal 2","dueDate":"","showEditGoal":false,"showSubGoals":true,"color":"#00fff580","visible":true,"tasks":[{"id":1,"title":"three","done":false,"today":true,"dateDone":""},{"id":2,"title":"four","done":false,"today":true,"dateDone":""}],"id":2}]}
