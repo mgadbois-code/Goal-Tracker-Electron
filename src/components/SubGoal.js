@@ -11,14 +11,14 @@ function SubGoal(props) {
                     event.stopPropagation();
                     props.toggleDone(props.goal.id,task.id)}}>{task.title}
                     </li>
-                    {task.done ? <span>{` - ${task.dateDone}`}</span> : 
+                    {task.done ? <span style={{paddingLeft: "5px"}}>{` - ${task.dateDone}`}</span> : 
                     <div onClick={(event) => {
                         event.stopPropagation();
                         props.toggleToday(props.goal.id, task.id)
                         if(props.goal.tasks.filter((otherTask)=> otherTask.today == task.today).length == props.goal.tasks.length){
                             props.setAllTodayStatus(!task.today)
                         }
-                    }}>{task.today ? "🟢" : "🟡"}</div>}
+                    }}>{props.goal.visible && (task.today ? "🟢" : "🟡")}</div>}
                 </div>)}
             </ul>
             

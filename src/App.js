@@ -11,6 +11,7 @@ import CompletedList from "./components/CompletedList";
 
 import React from "react"
 import { set } from "lodash";
+import HiddenList from "./components/HiddenList";
 
 
 
@@ -20,6 +21,7 @@ function App({fetchGoals, updGoalsDB, updCompletedDB, fetchCompleted, showDialog
   const [showAddGoal, setShowAddGoal] = useState(false)
   const [showAddTask, setShowAddTask] = useState(false)
   const [showCompleted, setShowCompleted] = useState(false)
+  const [showHiddenList, setShowHiddenList] = useState(false)
   const [addToGoal, setAddToGoal] = useState("")
   const [minimizeTasks, setMinimizeTasks] = useState(false)
   const [minimizeGoals, setMinimizeGoals] = useState(false)
@@ -29,11 +31,15 @@ function App({fetchGoals, updGoalsDB, updCompletedDB, fetchCompleted, showDialog
   const [goals, setGoals] = useState([ ])
   const [goalColor,setGoalColor] = useState("white")
   const [windowWidth, setWindowWidth] = useState(800)
+  const [viewWindow, setViewWindow] = useState("uncompleted")
 
+
+  
   const [showGoalEdit,setShowGoalEdit] = useState(false)
-
-var date = new Date();
-
+  
+  var date = new Date();
+  const numericDate = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`
+  
 
 //loads goals from db
   useEffect(() => {
@@ -189,7 +195,8 @@ const removeGoal = async (goalId, done) => {
   if(done){
     removedGoal.id = completed.length + 1
     removedGoal.showSubGoals = false;
-    // removedGoal.dateDone = 
+    // removedGoal.date =
+    removedGoal.dateDone = numericDate
     let newCompleted = [removedGoal, ...completed]
     setCompleted(newCompleted)
     await updCompletedDB(newCompleted)
@@ -218,7 +225,7 @@ const addTask = (goalId, taskTitle) => {
   let goalToUpdate = goals.filter((goal)=>(goal.id == goalId))[0]
 
   const tasks = goalToUpdate.tasks
-  let newTask = {id:tasks.length+1, title: taskTitle, done:false, today:false}
+  let newTask = {id:tasks.length+1, title: taskTitle, done:false, today:true,}
   let index = 1;
   const updTasks = [...tasks, newTask] 
   const updGoal = {...goalToUpdate, tasks:updTasks}
@@ -265,12 +272,11 @@ const removeTask = async (goalId, taskId) => {
 
 }
 
-
 //Toggles checkmark icon in the sugoals in the GoalList component from unchecked icon to checked icon by toggling done property in task object within goal object
 
 //used to be async
 const toggleDone=  async (goalId,taskId) => {
-  let numericDate = `${date.getMonth()}/${date.getDate()}/${date.getFullYear()}`
+  
   const goalToUpdate = goals.filter((goal) => (goal.id==goalId))[0]
   const tasks = goalToUpdate.tasks;
   const updTasks = tasks.map((task) => {
@@ -350,13 +356,14 @@ const submitTasks = async(taskArr) =>{
     showDialogBox("Input a Task")
     return
   }
- 
+  
   setShowAddTask(!showAddTask)
+ 
   let taskObjArr = []
   // 
   let targetGoal = goals.filter((goal)=> {return goal.id==addToGoal})[0]
   for(let i = 0; i < taskArr.length; i++){
-    taskObjArr.push({id:targetGoal.tasks.length+1+i, title:taskArr[i], done: false})
+    taskObjArr.push({id:targetGoal.tasks.length+1+i, title:taskArr[i], done: false, today:true})
   }
   
 
@@ -401,7 +408,7 @@ const addGoal = async(goal) => {
 const createNewGoal = () => {
   let randomHue = (Math.floor(Math.random()*3600)/10).toString() 
   let randomColor = `hsl(${randomHue},100%,80%)`
-  let newGoal = {title:"New Goal",dueDate:"",showEditGoal:true, showSubGoals:false,color:randomColor,tasks:[] }
+  let newGoal = {title:"New Goal",dueDate:"",showEditGoal:true, showSubGoals:false,color:randomColor,tasks:[], visible:true }
   addGoal(newGoal);
   
 }
@@ -410,10 +417,21 @@ const createNewTask = (goalId) => {
 
 }
 
-const reOrderTaskUp = (goalId,taskId, taskArr) =>{
-  for(let i = 0; i< taskArr.length; i++){
+const reOrderTaskUp = (goalId,taskId, taskArr, onTaskList = false) =>{
+  for(var i = 0; i< taskArr.length; i++){
       if(taskArr[i].id == taskId){
-          let switchIndex = i-1
+        var switchIndex = i-1
+        if(onTaskList){
+          // Find Task with smaller index with today == true and set switchIndex
+          while(switchIndex > 0){
+            if(!taskArr[switchIndex].today && !taskArr[switchIndex.done]){
+              switchIndex--
+            }
+            else{
+              break
+            }
+          }
+        }
           if(i == 0){
               switchIndex = taskArr.length -1
           }
@@ -433,10 +451,21 @@ const reOrderTaskUp = (goalId,taskId, taskArr) =>{
   
 }
 
-const reOrderTaskDown = (goalId,taskId, taskArr) =>{
+const reOrderTaskDown = (goalId,taskId, taskArr, onTaskList=false) =>{
   for(let i = 0; i< taskArr.length; i++){
       if(taskArr[i].id == taskId){
           let switchIndex = i+1
+          if(onTaskList){
+            // Find Task with smaller index with today == true and set switchIndex
+            while(switchIndex < taskArr.length - 1){
+              if(!taskArr[switchIndex].today && !taskArr[switchIndex.done]){
+                switchIndex++
+              }
+              else{
+                break
+              }
+            }
+          }
           if(i == taskArr.length -1){
               switchIndex = 0
           }
@@ -574,6 +603,39 @@ const toggleAllToday = (goalId, status) => {
 
 }
 
+const toggleVisible = async (goalId) => {
+  
+
+  let targetGoal = goals.filter((goal)=> {return goal.id==goalId})[0]
+  let visibility = false
+  if(targetGoal.hasOwnProperty("visible")){
+    visibility = !targetGoal.visible
+  }
+  targetGoal.visible = visibility
+  
+
+  const goalToUpdate = goals.filter((goal) => (goal.id == goalId))[0]
+  goalToUpdate.visible = visibility;
+
+
+
+
+  let newGoals = [...goals]
+  newGoals= newGoals.map((goal) => {
+    if(goal.id=== targetGoal.id){
+      return targetGoal
+    }
+    else{
+      return goal
+    }
+  })
+  
+  
+
+  setGoals(newGoals)
+  await updGoalsDB(newGoals)
+}
+
 
 
 var month= ["January","February","March","April","May","June","July", "August","September","October","November","December"];
@@ -595,16 +657,20 @@ const getDateEnding = (date) => {
         {/* Goals components */}
         <div style={{display:"flex", flexDirection:"row-reverse" }}>
         <MinMaxButtons windowWidth={windowWidth} component = "Goals" miniTasks = {minimizeTasks} miniGoals = {minimizeGoals} toggleMiniTasks={() => toggleMiniTasks()} toggleMiniGoals={() => setMinimizeGoals(!minimizeGoals)} />
-       { !showCompleted && completed.length > 0 ?<button className="completed-btn" onClick={() => setShowCompleted(!showCompleted)}>Completed</button> : (completed.length > 0 || showCompleted) && <button className="completed-btn" style={{backgroundColor:"steelblue"}} onClick={() => setShowCompleted(!showCompleted)}>Uncompleted</button> }
+       { !showCompleted && completed.length > 0 ?<button className="completed-btn" onClick={() => {setShowCompleted(!showCompleted); setShowHiddenList(false)} }>Completed</button> : (completed.length > 0 || showCompleted) && <button className="completed-btn"  onClick={() => setShowCompleted(!showCompleted)}>Uncompleted</button> }
+       {(showHiddenList || goals.filter((goal) => !goal.visible).length > 0) && <button style={{backgroundColor:"steelblue"}} className="completed-btn" onClick={() => {setShowHiddenList(!showHiddenList); setShowCompleted(false)} }>Hidden Goals</button>}
         </div>
        
-       {showCompleted ? <h1 style={{display:"flex", justifyContent:"space-around"}}>Completed Goals</h1> : showAddGoal || goals.length == 0 ? <Header titleName="⟵  Add A Goal!"  buttonColor="green" buttonText="Add"title="Goals" onAdd={() => createNewGoal()}></Header> :  
-       <Header titleName="All Goals"  buttonColor="green" buttonText="Add"title="Goals" onAdd={() => createNewGoal()}/>}
+       {showCompleted ? <h1 style={{display:"flex", justifyContent:"space-around"}}>Completed Goals</h1> : showAddGoal || (goals.filter(goal => goal.visible).length == 0 && !showHiddenList) ? <Header titleName="⟵  Add A Goal!"  buttonColor="green" buttonText="Add"title="Goals" onAdd={() => createNewGoal()}></Header> 
+       : showHiddenList ? <h1 style={{display:"flex", justifyContent:"space-around"}}>Hidden Goals</h1> 
+       : <Header titleName="Goals"  buttonColor="green" buttonText="Add"title="Goals" onAdd={() => createNewGoal()}/>}
         {showCompleted ? 
         <CompletedList completed={completed} showDialogBox={showDialogBox} submitGoalEdits={submitGoalEdits}
           reOrderCompletedUp={reOrderCompletedUp} reOrderCompletedDown={reOrderCompletedDown} removeGoal={removeCompleted} onToggle ={toggleSubCompleted}/> 
           : 
-          <GoalList showDialogBox={showDialogBox} submitGoalEdits={submitGoalEdits}
+          showHiddenList ? <HiddenList goals={goals} toggleVisible={toggleVisible} onToggle ={toggleSubGoals}/>
+          :
+          <GoalList showDialogBox={showDialogBox} submitGoalEdits={submitGoalEdits} toggleVisible={toggleVisible}
           reOrderGoalUp={reOrderGoalUp} reOrderGoalDown={reOrderGoalDown} reOrderTaskUp={reOrderTaskUp} reOrderTaskDown={reOrderTaskDown} 
           goals={goals}  removeGoal={removeGoal} addTask={addTask} removeTask={removeTask} onToggle ={toggleSubGoals} toggleDone={toggleDone} toggleToday={toggleToday}  toggleAllToday={toggleAllToday}
           toggleShowEditGoal={toggleEditGoal} />}
@@ -617,7 +683,7 @@ const getDateEnding = (date) => {
         <Header titleName= "Today's Tasks" goals={goals} title="Tasks"  onAdd={handleDropDown} />}
         {showAddTask && <AddTask addToGoalColor={goals.filter(goal => goal.id == addToGoal)[0].color} 
         onSubmit={submitTasks} buttonColor="red" buttonText="✖️ Never Mind" title="New Tasks" onAdd={() => (setShowAddTask(!showAddTask))}/>}
-        <TaskList goals={goals} removeTask={removeTask}  onToggle={toggleDone} />
+        <TaskList reOrderTaskUp={reOrderTaskUp} reOrderTaskDown={reOrderTaskDown} goals={goals} removeTask={removeTask}  onToggle={toggleDone} />
       </div>}
 
     </div>

@@ -71,6 +71,10 @@ body {
   border: none;
   background-color:white;
 }
+
+.goal-reorder:active {
+  transform: scale(.95);
+}
 /* @media(min-width:500){
   .goal-reorder{
     font-size: 40px;

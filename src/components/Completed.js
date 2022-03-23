@@ -16,6 +16,7 @@ const Completed = ({goal, removeGoal,onToggle,reOrderCompletedUp,reOrderComplete
   
     const tasks= goal.tasks
     const done = true
+    var numericDueDate = `${goal.dueDate.substr(5,)}-${goal.dueDate.substr(0,4)}`
     
     return (
         <div className="item pointer" style={{border:"solid 6px", borderColor: goal.color, overflow:"auto"} } onClick={() => onToggle(goal.id) } >
@@ -31,8 +32,8 @@ const Completed = ({goal, removeGoal,onToggle,reOrderCompletedUp,reOrderComplete
                 </div>
 
             </div>
-
-            {goal.dueDate !=="" && <h6 onClick={() => onToggle(goal.id)} className="detail">Due: {goal.dueDate} </h6>}
+            <h5>{`Completed: ${goal.dateDone}`}</h5>
+            {goal.dueDate !=="" && <h6 onClick={() => onToggle(goal.id)} className="detail">Due: {numericDueDate} </h6>}
 
             <div className="flex" style={{overflow:"auto"}}>
                 {!goal.showSubGoals && tasks.map((task) =>{

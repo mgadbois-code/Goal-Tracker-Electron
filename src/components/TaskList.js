@@ -11,7 +11,7 @@ const TaskList = (props) => {
 
     return (
         <div>
-            { props.goals.map((goal) => goal.tasks.filter((task) => {return (task.today && !task.done)}).map((task) => <Task onToggle={props.onToggle} removeTask={props.removeTask}  goal= {goal} task={task} />))}
+            { props.goals.map((goal) => goal.tasks.filter((task) => {return (task.today && !task.done)}).map((task) => <Task reOrderTaskUp={props.reOrderTaskUp} reOrderTaskDown={props.reOrderTaskDown} onToggle={props.onToggle} removeTask={props.removeTask}  goal= {goal} task={task} />))}
         </div>
     )
 }
