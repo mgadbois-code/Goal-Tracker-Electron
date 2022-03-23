@@ -15,7 +15,7 @@ function SubGoal(props) {
                     <div onClick={(event) => {
                         event.stopPropagation();
                         props.toggleToday(props.goal.id, task.id)
-                        if(props.goal.tasks.filter((otherTask)=> otherTask.today == task.today).length == props.goal.tasks.length){
+                        if(props.goal.tasks.filter(otherTask => !otherTask.done).filter((otherTask)=> otherTask.today == task.today).length == props.goal.tasks.filter(otherTask => !otherTask.done).length){
                             props.setAllTodayStatus(!task.today)
                         }
                     }}>{props.goal.visible && (task.today ? "🟢" : "🟡")}</div>}

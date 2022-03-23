@@ -15,7 +15,7 @@ const Goal = (props) => {
     var undoneTasks = props.goal.tasks.filter((task) => !task.done)
     var tasks=doneTasks.concat(undoneTasks)
     var done = undoneTasks.length == 0
-    var allToday = props.goal.tasks.filter((task)=> task.today).length != 0;
+    var allToday = undoneTasks.filter((task)=> task.today).length != 0;
     const [allTodayStatus, setAllTodayStatus] = useState(!allToday);
     
     
