@@ -1,5 +1,4 @@
 import Task from "./Task";
-import Goal from "./Goal";
 import React from "react"
 
 

@@ -4,13 +4,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from "./components/Header";
 import AddTask from "./components/AddTask";
 import TaskList from "./components/TaskList";
-import AddGoal from "./components/AddGoal";
 import GoalList from "./components/GoalList";
 import MinMaxButtons from "./components/MinMaxButtons";
 import CompletedList from "./components/CompletedList";
 
 import React from "react"
-import { set } from "lodash";
 import HiddenList from "./components/HiddenList";
 
 
@@ -25,18 +23,12 @@ function App({fetchGoals, updGoalsDB, updCompletedDB, fetchCompleted, showDialog
   const [addToGoal, setAddToGoal] = useState("")
   const [minimizeTasks, setMinimizeTasks] = useState(false)
   const [minimizeGoals, setMinimizeGoals] = useState(false)
-  const [holdingTaskMinimize, setHoldingTaskMinimize] =useState(false);
   const [holdingGoalMinimize, setHoldingGoalMinimize] =useState(false);
   const [completed, setCompleted] = useState([ ])
   const [goals, setGoals] = useState([ ])
   const [goalColor,setGoalColor] = useState("white")
   const [windowWidth, setWindowWidth] = useState(800)
-  const [viewWindow, setViewWindow] = useState("uncompleted")
 
-
-  
-  const [showGoalEdit,setShowGoalEdit] = useState(false)
-  
   var date = new Date();
   const numericDate = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`
   
@@ -81,15 +73,6 @@ function App({fetchGoals, updGoalsDB, updCompletedDB, fetchCompleted, showDialog
         setMinimizeTasks(minimizeTasks)
         setMinimizeGoals(minimizeGoals)
       }
-      // else{
-      //   setMinimizeGoals(false)
-      //   setMinimizeTasks(false)
-      // }
-      // if( windowWidth < 645 && !minimizeTasks && !minimizeGoals && holdingGoalMinimize){
-      //   setMinimizeTasks(true)
-      //   setHoldingGoalMinimize(false)
-
-      // }
     
 }
 
@@ -388,12 +371,6 @@ const submitTasks = async(taskArr) =>{
   await updGoalsDB(newGoals)
 }
 
-//Sets the goal color of a new goal. 
-const handleColorChange = () => {
-  setGoalColor(goalColor);
-  
-}
-
 //Creates goal object and adds it to the goals array
 //used to be async
 const addGoal = async(goal) => {
@@ -411,10 +388,6 @@ const createNewGoal = () => {
   let newGoal = {title:"New Goal",dueDate:"",showEditGoal:true, showSubGoals:false,color:randomColor,tasks:[], visible:true }
   addGoal(newGoal);
   
-}
-
-const createNewTask = (goalId) => {
-
 }
 
 const reOrderTaskUp = (goalId,taskId, taskArr, onTaskList = false) =>{
@@ -634,18 +607,6 @@ const toggleVisible = async (goalId) => {
 
   setGoals(newGoals)
   await updGoalsDB(newGoals)
-}
-
-
-
-var month= ["January","February","March","April","May","June","July", "August","September","October","November","December"];
-      
-const getDateEnding = (date) => {
-  if(date == 11 || date == 12 || date == 13){
-    return "th"
-  }
-  var endings = ["st","nd","rd","th","th","th","th","th","th","th"]
-  return(endings[date%10])
 }
 
   return (

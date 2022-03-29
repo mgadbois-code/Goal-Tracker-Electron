@@ -1,21 +1,15 @@
 import SubGoal from "./SubGoal"
-import ItemRemovebutton from "./ItemRemoveButton"
-import EditButton from "./EditButton"
-import FocusButton from "./FocusButton"
-import EditGoal from "./EditGoal"
 import ReOrderButtons from "./ReOrderButtons"
-import { useState } from "react"
 import React from "react"
 
 
-const Completed = ({goal, removeGoal,onToggle,reOrderCompletedUp,reOrderCompletedDown,completed }) => {
+const Completed = ({goal, removeGoal,onToggle,reOrderCompletedUp,reOrderCompletedDown }) => {
 
     //order Tasks by whether they are done
     // const doneTasks = goal.tasks.filter((task) => task.done)
     // const undoneTasks = props.goal.tasks.filter((task) => !task.done)
   
     const tasks= goal.tasks
-    const done = true
     var numericDueDate = `${goal.dueDate.substr(5,)}-${goal.dueDate.substr(0,4)}`
     
     return (
