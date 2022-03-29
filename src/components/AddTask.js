@@ -1,17 +1,9 @@
 import { useState } from "react"
-import Button from "./Button"
 import React from "react"
 
-const AddTask = ({addToGoalColor,onSubmit,buttonColor, buttonText, title, onAdd}) => {
+const AddTask = ({addToGoalColor,onSubmit,onAdd}) => {
     var [taskName, setTaskName] = useState("")
-    var [taskArr, setTaskArr] = useState([])
     
-    const addTask = (event) => {
-        event.preventDefault()
-        setTaskArr([...taskArr,taskName])
-        // console.log(taskArr)
-        setTaskName("")
-    }
 
     const submitTasks = (event,taskName) =>{
         event.preventDefault();
@@ -25,10 +17,6 @@ const AddTask = ({addToGoalColor,onSubmit,buttonColor, buttonText, title, onAdd}
         //   console.log("Enter Press")
         }
       }
-
-    const removeTask = (event, task) => {
-        setTaskArr(taskArr.filter(t => t != task))
-    }
 
     return (
         <div className="item pointer task" style={{backgroundColor: addToGoalColor, cursor:"default"}}>

@@ -7,7 +7,7 @@ import React from "react"
 
 const FocusButton = ({toggleVisible, goalId, visible}) => {
     return (
-        <div style={{paddingLeft:"20px"}}>
+        <div style={{fontSize:"24px"}}>
             {visible && <FontAwesomeIcon icon={faEye} onClick = {(event) => {event.stopPropagation(); toggleVisible(goalId);}} />}
             {!visible && <FontAwesomeIcon icon={faEyeSlash} onClick = {(event) => {event.stopPropagation(); toggleVisible(goalId);}} />}
         </div>

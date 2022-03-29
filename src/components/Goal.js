@@ -3,16 +3,22 @@ import ItemRemovebutton from "./ItemRemoveButton"
 import EditButton from "./EditButton"
 import FocusButton from "./FocusButton"
 import EditGoal from "./EditGoal"
+import AllTodayButton from "./AllTodayButton"
 import React from "react"
+import { useState } from "react"
 
 
 const Goal = (props) => {
 
     //order Tasks by whether they are done
-    const doneTasks = props.goal.tasks.filter((task) => task.done)
-    const undoneTasks = props.goal.tasks.filter((task) => !task.done)
-    const tasks=doneTasks.concat(undoneTasks)
-    const done = undoneTasks.length == 0
+    var doneTasks = props.goal.tasks.filter((task) => task.done)
+    var undoneTasks = props.goal.tasks.filter((task) => !task.done)
+    var tasks=doneTasks.concat(undoneTasks)
+    var done = undoneTasks.length == 0
+    var allToday = undoneTasks.filter((task)=> task.today).length != 0;
+    const [allTodayStatus, setAllTodayStatus] = useState(!allToday);
+    
+    
     
     
     if(props.showEditGoal){
@@ -29,12 +35,14 @@ const Goal = (props) => {
                 {/* goal title */}
                 <h3 className="detail flex"  onClick={() => props.onToggle(props.goal.id)}>{props.goal.title} 
                 
-                    <FocusButton visible={props.goal.visible} goalId ={props.goal.id} toggleVisible = {props.toggleVisible}/>
+                
                 </h3>
 
                 <div className="header">
-                    <EditButton toggleShowEditGoal={props.toggleShowEditGoal} goalId = {props.goal.id} />
-                    <ItemRemovebutton allDone={undoneTasks.length} removeGoal={() => props.removeGoal(props.goal.id,done)}/>
+                    {props.goal.visible && <AllTodayButton goalId={props.goal.id} toggleAllToday={props.toggleAllToday} status={allTodayStatus} tasks={props.goal.tasks} setAllTodayStatus={setAllTodayStatus} />}
+                    {props.goal.visible && <EditButton toggleShowEditGoal={props.toggleShowEditGoal} goalId = {props.goal.id} />}
+                    <FocusButton toggleVisible={props.toggleVisible} goalId={props.goal.id} visible={props.goal.visible} />
+                    {props.goal.visible && <ItemRemovebutton allDone={undoneTasks.length} removeGoal={() => props.removeGoal(props.goal.id,done)}/>}
                 </div>
 
             </div>
@@ -50,7 +58,7 @@ const Goal = (props) => {
                 })}
             </div>
 
-            {props.goal.showSubGoals && <SubGoal goal={props.goal} toggleDone={props.toggleDone} tasks={tasks}/>}
+            {props.goal.showSubGoals && <SubGoal goal={props.goal} toggleDone={props.toggleDone} setAllTodayStatus={setAllTodayStatus} toggleToday={props.toggleToday} tasks={tasks}/>}
 
         </div>
     )

@@ -1,10 +1,10 @@
 import React from 'react'
 
-const ReOrderButtons = ({styling,size,reOrderUp, reOrderDown,id, arr}) => {
+const ReOrderButtons = ({styling,reOrderUp, reOrderDown}) => {
     return (
         <div className="flex">
-            <button  onClick={(event) =>{event.stopPropagation();reOrderUp()}} className={`${styling}`}>⬆️</button>
-            <button onClick={(event) =>{event.stopPropagation();reOrderDown()}} className={`${styling}`}>⬇️</button>
+            <button  onClick={(event) =>{event.stopPropagation();reOrderUp()}} className={`${styling}`} style={{background:"none"}}>⬆️</button>
+            <button onClick={(event) =>{event.stopPropagation();reOrderDown()}} className={`${styling}`} style={{background:"none"}}>⬇️</button>
         </div>
     )
 }
