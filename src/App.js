@@ -76,7 +76,7 @@ function App({fetchGoals, updGoalsDB, updCompletedDB, fetchCompleted, showDialog
     
 }
 
-    window.addEventListener('resize', handleResize)
+    // window.addEventListener('resize', handleResize)
     return _ => {
       window.removeEventListener('resize', handleResize)
     
