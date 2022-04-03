@@ -98,7 +98,8 @@ const EditGoal = ({submitGoalEdits,toggleShowEditGoal,reOrderTaskUp,reOrderTaskD
                     <ReOrderButtons styling="goal-reorder" reOrderUp={() => {reOrderGoalUp(goal.id)}} reOrderDown={() => {reOrderGoalDown(goal.id)}} size="40px" />
                 </div>
     
-                    <button onClick={() => {goal.showEditGoal=false;submitGoalEdits(goalId,goal)}} className="btn" style={{backgroundColor:goal.color, marginRight:"20px", color:"black", fontWeight:"bold"}}>Done</button>
+                    <button onClick={() => {goal.showEditGoal=false;
+                        submitGoalEdits(goalId,goal)}} className="btn" style={{backgroundColor:goal.color, marginRight:"20px", color:"black", fontWeight:"bold"}}>{goal.tasks.length == 0 ? "Remove" : "Done"}</button>
  
             </div>
           

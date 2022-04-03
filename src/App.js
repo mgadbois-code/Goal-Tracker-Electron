@@ -324,6 +324,11 @@ await updGoalsDB(newGoals)
 //used to be async
 
 const submitGoalEdits = async(goalId,newGoal) =>{
+  if(newGoal.tasks.length == 0){
+    removeGoal(goalId, false)
+    return
+  }
+  
   setGoals(goals.map(goal => {
     if(goal.id == goalId){
       console.log(newGoal)
@@ -629,7 +634,7 @@ const toggleVisible = async (goalId) => {
           <CompletedList completed={completed} showDialogBox={showDialogBox} submitGoalEdits={submitGoalEdits}
             reOrderCompletedUp={reOrderCompletedUp} reOrderCompletedDown={reOrderCompletedDown} removeGoal={removeCompleted} onToggle ={toggleSubCompleted}/> 
             : 
-            showHiddenList ? <HiddenList goals={goals} toggleVisible={toggleVisible} onToggle ={toggleSubGoals}/>
+            showHiddenList ? <HiddenList goals={goals} toggleVisible={toggleVisible} onToggle ={toggleSubGoals} toggleDone={toggleDone} removeGoal={removeGoal}/>
             :
             <GoalList showDialogBox={showDialogBox} submitGoalEdits={submitGoalEdits} toggleVisible={toggleVisible}
             reOrderGoalUp={reOrderGoalUp} reOrderGoalDown={reOrderGoalDown} reOrderTaskUp={reOrderTaskUp} reOrderTaskDown={reOrderTaskDown} 

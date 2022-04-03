@@ -1,1 +1,1 @@
-{"goals":[{"title":"New test Goal","dueDate":"","showEditGoal":false,"showSubGoals":true,"color":"hsl(133.6,100%,80%)","tasks":[{"id":1,"title":"one","done":false,"today":true},{"id":3,"title":"three","done":false,"today":false,"dateDone":""},{"id":2,"title":"two","done":false,"today":true}],"visible":true,"id":1}]}
+{"goals":[]}
